@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageVersion>1.0.0-preview3</PackageVersion>
+    <Title>JSON library for .NET</Title>
+    <Authors>Anton Abramenko</Authors>
+    <PackageTags>json</PackageTags>
+    <LangVersion>9</LangVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>

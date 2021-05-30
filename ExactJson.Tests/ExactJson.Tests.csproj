@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <LangVersion>9</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="nunit" Version="3.13.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Earth_Meteorite_Landings.json" />
+    <EmbeddedResource Include="Data\Earth_Meteorite_Landings.min.json" />
+    <EmbeddedResource Include="Data\Earthquakes.json" />
+    <EmbeddedResource Include="Data\Earthquakes.min.json" />
+    <EmbeddedResource Include="Data\Exchange_Rate_USD.json" />
+    <EmbeddedResource Include="Data\Exchange_Rate_USD.min.json" />
+    <EmbeddedResource Include="Data\Global_Temperature_Anomaly.json" />
+    <EmbeddedResource Include="Data\Global_Temperature_Anomaly.min.json" />
+    <EmbeddedResource Include="Data\Nobel_Prizes.json" />
+    <EmbeddedResource Include="Data\Nobel_Prizes.min.json" />
+    <EmbeddedResource Include="Data\Reddit_All_Feed.json" />
+    <EmbeddedResource Include="Data\Reddit_All_Feed.min.json" />
+    <EmbeddedResource Include="Data\US_Annual_Average_Temperature_and_Anomaly.json" />
+    <EmbeddedResource Include="Data\US_Annual_Average_Temperature_and_Anomaly.min.json" />
+    <EmbeddedResource Include="Data\VAT_Rates_for_EU.json" />
+    <EmbeddedResource Include="Data\VAT_Rates_for_EU.min.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExactJson\ExactJson.csproj" />
+  </ItemGroup>
+
+</Project>
