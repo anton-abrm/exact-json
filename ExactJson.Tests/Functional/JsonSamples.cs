@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ExactJson.Tests.Functional
 {
-    internal static class JsonData
+    internal static class JsonSamples
     {
         public static string GetJsonAsString(string fileName)
         {
