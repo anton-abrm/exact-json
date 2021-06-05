@@ -632,7 +632,7 @@ namespace ExactJson.Tests.Functional
             var json = JsonSamples.GetJsonAsString("Earthquakes.min.json");
 
             var serializer = new JsonSerializer {
-                SerializeNull = true
+                SerializeNullProperty = true
             };
             
             serializer.SetupContext<double>(

@@ -131,7 +131,7 @@ namespace ExactJson.Tests.Unit.Serialization
             original = JsonNode.Parse(original).ToString();
 
             var serializer = new JsonSerializer {
-                SerializeNull = true
+                SerializeNullProperty = true
             };
 
             var ctx = new JsonNodeSerializationContext {

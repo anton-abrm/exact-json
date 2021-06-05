@@ -63,12 +63,12 @@ namespace ExactJson.Serialization
                    _attr?.IsTuple ??
                    _bound?.IsTuple ?? serializer.IsNodeTuple;
             
-            public bool SerializeNull(JsonSerializer serializer)
+            public bool SerializeNullProperty(JsonSerializer serializer)
                 => _local?.SerializeNull ??
                    _kvAttr?.SerializeNull ??
                    _kvBound?.SerializeNull ??
                    _attr?.SerializeNull ??
-                   _bound?.SerializeNull ?? serializer.SerializeNull;
+                   _bound?.SerializeNull ?? serializer.SerializeNullProperty;
 
             public string GetFormat()
                 => _local?.Format ??

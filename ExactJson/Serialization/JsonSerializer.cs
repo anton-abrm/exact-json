@@ -48,7 +48,7 @@ namespace ExactJson.Serialization
             set => _formatProvider = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public bool SerializeNull { get; set; }
+        public bool SerializeNullProperty { get; set; }
 
         public bool IsNodeOptional { get; set; }
 
@@ -149,7 +149,7 @@ namespace ExactJson.Serialization
                 if (propertyName is null) {
                     writer.WriteNull();
                 }
-                else if (ctx.SerializeNull(this)) {
+                else if (ctx.SerializeNullProperty(this)) {
                     writer.WriteProperty(propertyName);
                     writer.WriteNull();
                 }
