@@ -472,7 +472,7 @@ namespace ExactJson.Serialization
             switch (reader.TokenType) {
 
                 case JsonTokenType.StartObject when targetType.MetaCode == MetaTypeCode.Dictionary:
-                    return DeserializeDictionary(reader, targetType, ctx, stack);
+                    return DeserializeDictionary(reader, (MetaTypeDictionary) targetType, ctx, stack);
 
                 case JsonTokenType.StartObject:
                     return DeserializeObject(reader, targetType, ctx, stack);
@@ -497,13 +497,8 @@ namespace ExactJson.Serialization
             }
         }
 
-        private object DeserializeDictionary(JsonReader reader, MetaType targetType, Context ctx, Stack<PointerSection> stack)
+        private object DeserializeDictionary(JsonReader reader, MetaTypeDictionary dictType, Context ctx, Stack<PointerSection> stack)
         {
-            var dictType = targetType as MetaTypeDictionary;
-            if (dictType is null) {
-                throw new JsonInvalidTypeException();
-            }
-
             var result = dictType.Constructor();
 
             reader.ReadStartObject();
