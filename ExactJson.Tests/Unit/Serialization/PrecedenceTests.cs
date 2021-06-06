@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization
 {
-    public sealed class ContextPrecedenceTests
+    public sealed class PrecedenceTests
     {
         private sealed class Converter : JsonConverter
         {
