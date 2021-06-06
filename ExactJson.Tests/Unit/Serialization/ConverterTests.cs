@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization
 {
-    public class CustomConverterTests
+    public class ConverterTests
     {
         private sealed class UriConverter : JsonConverter
         {
