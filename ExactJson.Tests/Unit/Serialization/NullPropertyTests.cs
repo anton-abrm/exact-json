@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization
 {
-    public class NullPropertySerializationTests
+    public class NullPropertyTests
     {
         private sealed class NoNullAttributeClass
         {
