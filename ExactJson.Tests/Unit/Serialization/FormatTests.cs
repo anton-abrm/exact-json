@@ -10,6 +10,14 @@ namespace ExactJson.Tests.Unit.Serialization
 {
     public class FormatTests
     {
+        private class CustomCultureAttributeClass
+        {
+            [JsonNode("foo")]
+            [JsonFormat("D")]
+            [JsonCulture("de-DE")]
+            public DateTime Foo { get; set; }
+        }
+        
         [Test]
         public void Ctor_DefaultCulture()
         {
@@ -136,6 +144,27 @@ namespace ExactJson.Tests.Unit.Serialization
             });
 
             Assert.That(result, Is.EqualTo(new DateTime(2020, 1, 1)));
+        }
+        
+        [Test]
+        public void Serialize_ClassWithCustomCultureAttribute()
+        {
+            var result = new JsonSerializer().Serialize<CustomCultureAttributeClass>(
+                new CustomCultureAttributeClass {
+                    Foo = new DateTime(2020, 1, 1)
+            });
+
+            Assert.That(result, Is.EqualTo("{\"foo\":\"Mittwoch, 1. Januar 2020\"}"));
+        }
+        
+        [Test]
+        public void Deserialize_ClassWithCustomCultureAttribute()
+        {
+            var result = new JsonSerializer().Deserialize<CustomCultureAttributeClass>(
+                "{\"foo\":\"Mittwoch, 1. Januar 2020\"}");
+            
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Foo, Is.EqualTo(new DateTime(2020, 1, 1)));
         }
     }
 }
