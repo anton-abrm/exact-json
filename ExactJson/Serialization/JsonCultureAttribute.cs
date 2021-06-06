@@ -3,14 +3,14 @@ using System.Globalization;
 
 namespace ExactJson.Serialization
 {
-    public sealed class JsonCultureInfoAttribute : JsonNodeModifierAttribute
+    public sealed class JsonCultureAttribute : JsonNodeModifierAttribute
     {
-        public JsonCultureInfoAttribute(string name)
+        public JsonCultureAttribute(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public string Name { get; }
+        private string Name { get; }
 
         public IFormatProvider CreateProvider()
         {

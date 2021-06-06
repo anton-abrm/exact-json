@@ -94,7 +94,7 @@ namespace ExactJson.Serialization.Meta
                           .FirstOrDefault();
             
             setup.FormatProvider = memberInfo
-                                  .GetCustomAttributes(true).OfType<JsonCultureInfoAttribute>()
+                                  .GetCustomAttributes(true).OfType<JsonCultureAttribute>()
                                   .Where(a => a.ApplyTo == target)
                                   .Select(a => a.CreateProvider())
                                   .FirstOrDefault();
