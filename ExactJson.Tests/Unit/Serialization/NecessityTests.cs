@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization
 {
-    public class JsonSerializerNecessityTests
+    public class NecessityTests
     {
         private sealed class EntityRequired
         {

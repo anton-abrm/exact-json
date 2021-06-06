@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization
 {
-    public class JsonSerializerTupleTests
+    public class TupleTests
     {
         private sealed class Person
         {

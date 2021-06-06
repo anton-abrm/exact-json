@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization
 {
-    public class JsonSerializerStructTests
+    public class StructTests
     {
         private struct Complex
         {

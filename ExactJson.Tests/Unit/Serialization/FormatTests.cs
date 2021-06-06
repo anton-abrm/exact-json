@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization
 {
-    public class JsonSerializerFormatTests
+    public class FormatTests
     {
         [Test]
         public void Ctor_DefaultCulture()

@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization
 {
-    public class JsonSerializerBasicTests
+    public class BasicTests
     {
         private enum DemoEnum
         {
