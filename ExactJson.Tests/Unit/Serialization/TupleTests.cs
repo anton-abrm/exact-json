@@ -25,7 +25,7 @@ namespace ExactJson.Tests.Unit.Serialization
         }
 
         [Test]
-        public void Serialize_Tuple()
+        public void Serialize_TupleContext()
         {
             var original = "[1,'John']".Replace('\'', '\"');
 
@@ -59,5 +59,23 @@ namespace ExactJson.Tests.Unit.Serialization
 
             Assert.That(actual, Is.EqualTo(original));
         }
+        
+        [Test]
+        public void Serialize_TupleSettings()
+        {
+            var original = "[1,'John']".Replace('\'', '\"');
+
+            var serializer = new JsonSerializer()
+            {
+                IsNodeTuple = true
+            };
+
+            var person = serializer.Deserialize<Person>(original);
+            
+            var actual = serializer.Serialize<Person>(person);
+
+            Assert.That(actual, Is.EqualTo(original));
+        }
+        
     }
 }
