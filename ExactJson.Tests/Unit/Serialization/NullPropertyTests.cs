@@ -34,7 +34,7 @@ namespace ExactJson.Tests.Unit.Serialization
         }
         
         [Test]
-        public void SerializeNullProperty_FalseByDefault()
+        public void Serialize_SerializeNullProperty_FalseByDefault()
         {
             var serializer = new JsonSerializer();
             
@@ -42,7 +42,7 @@ namespace ExactJson.Tests.Unit.Serialization
         }
         
         [Test]
-        public void NoNullAttribute_SerializeNullProperty_False()
+        public void Serialize_NoNullAttribute_SerializeNullProperty_False()
         {
             var obj = new NoNullAttributeClass();
             
@@ -56,7 +56,7 @@ namespace ExactJson.Tests.Unit.Serialization
         }
         
         [Test]
-        public void NoNullAttribute_SerializeNullProperty_True()
+        public void Serialize_NoNullAttribute_SerializeNullProperty_True()
         {
             var obj = new NoNullAttributeClass();
             
@@ -70,7 +70,7 @@ namespace ExactJson.Tests.Unit.Serialization
         }
 
         [Test]
-        public void DefaultNullAttribute()
+        public void Serialize_DefaultNullAttribute()
         {
             var obj = new DefaultNullAttributeClass();
             
@@ -82,7 +82,7 @@ namespace ExactJson.Tests.Unit.Serialization
         }
         
         [Test]
-        public void TrueNullAttribute()
+        public void Serialize_TrueNullAttribute()
         {
             var demo = new TrueNullAttributeClass();
             
@@ -94,7 +94,7 @@ namespace ExactJson.Tests.Unit.Serialization
         }
         
         [Test]
-        public void FalseNullAttribute()
+        public void Serialize_FalseNullAttribute()
         {
             var obj = new FalseNullAttributeClass();
             
@@ -103,6 +103,23 @@ namespace ExactJson.Tests.Unit.Serialization
             var json = serializer.Serialize<FalseNullAttributeClass>(obj);
             
             Assert.That(json, Is.EqualTo("{}"));
+        }
+        
+        [Test]
+        public void Serialize_Bound_SerializeNullProperty_True()
+        {
+            var obj = new NoNullAttributeClass();
+            
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<string>(new JsonNodeSerializationContext()
+            {
+                SerializeNullProperty = true
+            });
+
+            var json = serializer.Serialize<NoNullAttributeClass>(obj);
+            
+            Assert.That(json, Is.EqualTo("{\"foo\":null}"));
         }
     }
 }
