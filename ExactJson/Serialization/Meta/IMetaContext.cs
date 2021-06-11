@@ -10,7 +10,7 @@ namespace ExactJson.Serialization.Meta
         string Format { get; }
         IFormatProvider FormatProvider { get; }
         string TypePropertyName { get; }
-        bool? SerializeNull { get; }
+        bool? SerializeNullProperty { get; }
 
         IMetaContext ChildKey { get; }
         IMetaContext ChildItem { get; }

@@ -13,7 +13,7 @@ namespace ExactJson.Serialization
         public IFormatProvider FormatProvider { get; set; }
         public string TypePropertyName { get; set; }
 
-        bool? IMetaContext.SerializeNull => null;
+        bool? IMetaContext.SerializeNullProperty => null;
         
         IMetaContext IMetaContext.ChildKey => null;
         IMetaContext IMetaContext.ChildItem => null;

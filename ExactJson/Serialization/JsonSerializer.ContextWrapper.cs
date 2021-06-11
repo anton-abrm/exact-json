@@ -58,7 +58,7 @@ namespace ExactJson.Serialization
 
             public bool? IsTuple => GetValue(ctx => ctx.IsTuple);
             public bool? IsOptional => GetValue(ctx => ctx.IsOptional);
-            public bool? SerializeNull => GetValue(ctx => ctx.SerializeNull);
+            public bool? SerializeNullProperty => GetValue(ctx => ctx.SerializeNullProperty);
             public JsonConverter Converter => GetValue(ctx => ctx.Converter);
             public string Format => GetValue(ctx => ctx.Format);
             public IFormatProvider FormatProvider => GetValue(ctx => ctx.FormatProvider);

@@ -12,7 +12,7 @@ namespace ExactJson.Serialization
         
         bool? IMetaContext.IsTuple => null;
         bool? IMetaContext.IsOptional => null;
-        bool? IMetaContext.SerializeNull => null;
+        bool? IMetaContext.SerializeNullProperty => null;
         string IMetaContext.TypePropertyName => null;
         
         IMetaContext IMetaContext.ChildKey => null;

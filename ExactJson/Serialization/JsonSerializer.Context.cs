@@ -64,11 +64,11 @@ namespace ExactJson.Serialization
                    _bound?.IsTuple ?? serializer.IsNodeTuple;
             
             public bool SerializeNullProperty(JsonSerializer serializer)
-                => _local?.SerializeNull ??
-                   _kvAttr?.SerializeNull ??
-                   _kvBound?.SerializeNull ??
-                   _attr?.SerializeNull ??
-                   _bound?.SerializeNull ?? serializer.SerializeNullProperty;
+                => _local?.SerializeNullProperty ??
+                   _kvAttr?.SerializeNullProperty ??
+                   _kvBound?.SerializeNullProperty ??
+                   _attr?.SerializeNullProperty ??
+                   _bound?.SerializeNullProperty ?? serializer.SerializeNullProperty;
 
             public string GetFormat()
                 => _local?.Format ??

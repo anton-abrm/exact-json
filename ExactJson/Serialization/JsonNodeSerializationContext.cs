@@ -8,7 +8,7 @@ namespace ExactJson.Serialization
     {
         public bool? IsTuple { get; set; }
         public bool? IsOptional { get; set; }
-        public bool? SerializeNull { get; set; }
+        public bool? SerializeNullProperty { get; set; }
         public JsonConverter Converter { get; set; }
         public string Format { get; set; }
         public IFormatProvider FormatProvider { get; set; }

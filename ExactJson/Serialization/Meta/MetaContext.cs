@@ -31,7 +31,7 @@ namespace ExactJson.Serialization.Meta
         public IFormatProvider FormatProvider { get; }
         public bool? IsOptional { get; }
         public bool? IsTuple { get; }
-        public bool? SerializeNull { get; }
+        public bool? SerializeNullProperty { get; }
         public JsonConverter Converter { get; }
 
         public MetaContext ChildContext { get; set; }
@@ -47,7 +47,7 @@ namespace ExactJson.Serialization.Meta
         {
             IsTuple = setup.IsTuple;
             IsOptional = setup.IsOptional;
-            SerializeNull = setup.SerializeNull;
+            SerializeNullProperty = setup.SerializeNull;
             Format = setup.Format;
             FormatProvider = setup.FormatProvider;
             TypePropertyName = setup.TypePropertyName;
