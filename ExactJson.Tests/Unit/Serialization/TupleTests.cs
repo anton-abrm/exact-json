@@ -43,7 +43,7 @@ namespace ExactJson.Tests.Unit.Serialization
         }
         
         [Test]
-        public void Serialize_Tuple_CUstomOrder()
+        public void Serialize_Tuple_CustomOrder()
         {
             var original = "['John',1]".Replace('\'', '\"');
 
