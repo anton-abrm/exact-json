@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using ExactJson.Serialization.Meta;
 
@@ -13,9 +14,13 @@ namespace ExactJson.Serialization
         public IFormatProvider FormatProvider { get; set; }
         public string TypePropertyName { get; set; }
 
+        [ExcludeFromCodeCoverage]
         bool? IMetaContext.SerializeNullProperty => null;
         
+        [ExcludeFromCodeCoverage]
         IMetaContext IMetaContext.ChildKey => null;
+        
+        [ExcludeFromCodeCoverage]
         IMetaContext IMetaContext.ChildItem => null;
     }
 }
