@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using ExactJson.Serialization;
 
 using NUnit.Framework;
@@ -73,6 +75,26 @@ namespace ExactJson.Tests.Unit.Serialization
             var person = serializer.Deserialize<Person>(original);
             
             var actual = serializer.Serialize<Person>(person);
+
+            Assert.That(actual, Is.EqualTo(original));
+        }
+        
+        [Test]
+        public void Serialize_TupleItemContext()
+        {
+            var original = "[[1,'John']]".Replace('\'', '\"');
+
+            var serializer = new JsonSerializer();
+
+            var ctx = new JsonNodeSerializationContext {
+                ItemContext = new JsonItemSerializationContext() {
+                    IsTuple = true
+                }
+            };
+
+            var persons = serializer.Deserialize<List<Person>>(original, ctx);
+            
+            var actual = serializer.Serialize<List<Person>>(persons, ctx);
 
             Assert.That(actual, Is.EqualTo(original));
         }
