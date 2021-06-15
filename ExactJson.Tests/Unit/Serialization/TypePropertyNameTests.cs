@@ -1,4 +1,6 @@
-﻿using ExactJson.Serialization;
+﻿using System.Collections.Generic;
+
+using ExactJson.Serialization;
 
 using NUnit.Framework;
 
@@ -123,6 +125,35 @@ namespace ExactJson.Tests.Unit.Serialization
             var result = serializer.Deserialize<BaseWithAttribute>("{\"$type\":\"DERIVED_WITH_ATTRIBUTE\"}");
             
             Assert.That(result, Is.InstanceOf<DerivedWithAttribute>());
+        }
+        
+        [Test]
+        public void Serialize_TypePropertyName_LocalItemContext()
+        {
+            var serializer = CreateSerializer();
+
+            var json = serializer.Serialize<List<Base>>(new List<Base>(){ new Derived() }, new JsonNodeSerializationContext {
+                ItemContext = new JsonItemSerializationContext() {
+                    TypePropertyName = "$type"
+                }
+            });
+            
+            Assert.That(json, Is.EqualTo("[{\"$type\":\"DERIVED\"}]"));
+        }
+        
+        [Test]
+        public void Deserialize_TypePropertyName_LocalItemContext()
+        {
+            var serializer = CreateSerializer();
+
+            var result = serializer.Deserialize<List<Base>>("[{\"$type\":\"DERIVED\"}]", new JsonNodeSerializationContext {
+                ItemContext = new JsonItemSerializationContext() {
+                    TypePropertyName = "$type"
+                }
+            });
+            
+            Assert.That(result, Is.InstanceOf<List<Base>>());
+            Assert.That(result[0], Is.InstanceOf<Derived>());
         }
     }
 
