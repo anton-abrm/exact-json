@@ -256,7 +256,7 @@ namespace ExactJson.Serialization
                 }
 
                 if (!_typeAliasesReverse.TryGetValue(valueType, out string alias)) {
-                    throw new InvalidOperationException($"Type {valueType.UnwrappedType} must have alias.");
+                    throw new JsonInvalidTypeException($"Type {valueType.UnwrappedType} must have alias.");
                 }
 
                 if (writeProperty) {
@@ -493,7 +493,7 @@ namespace ExactJson.Serialization
                     return DeserializeNumber(reader, targetType);
 
                 default:
-                    throw new InvalidOperationException($"Unexpected reader token type '{reader.TokenType}'.");
+                    throw new InvalidOperationException($"Unexpected reader token '{reader.TokenType}'.");
             }
         }
 
