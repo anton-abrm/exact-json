@@ -4,7 +4,6 @@ using System.Text;
 
 namespace ExactJson.Serialization
 {
-
     public sealed partial class JsonSerializer
     {
         public JsonNodeSerializationContext GetContext<T>()
@@ -15,21 +14,6 @@ namespace ExactJson.Serialization
         public void SetContext<T>(JsonNodeSerializationContext context)
         {
             SetContext(typeof(T), context);
-        }
-
-        public void SetupContext<T>(Action<JsonNodeSerializationContext> setup)
-        {
-            if (setup is null) {
-                throw new ArgumentNullException(nameof(setup));
-            }
-
-            var context = GetContext<T>();
-            if (context is null) {
-                context = new JsonNodeSerializationContext();
-                SetContext<T>(context);
-            }
-
-            setup(context);
         }
 
         #region Serialize

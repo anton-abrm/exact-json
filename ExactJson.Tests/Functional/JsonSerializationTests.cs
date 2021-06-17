@@ -642,12 +642,14 @@ namespace ExactJson.Tests.Functional
             var serializer = new JsonSerializer {
                 SerializeNullProperty = true
             };
+
+            serializer.SetContext<double>(new JsonNodeSerializationContext {
+                Format = ".0"
+            });
             
-            serializer.SetupContext<double>(
-                ctx => ctx.Format = ".0");
-            
-            serializer.SetupContext<string[]>(
-                ctx => ctx.Converter = new StringCollectionConverter());
+            serializer.SetContext<string[]>(new JsonNodeSerializationContext {
+                Converter = new StringCollectionConverter()
+            });
 
             using var jr = CreateReader(json, readerType);
 

@@ -38,8 +38,10 @@ namespace ExactJson.Tests.Unit.Serialization
         private static JsonSerializer CreateSerializer()
         {
             var serializer = new JsonSerializer();
-            
-            serializer.SetupContext<DateTime>(ctx => ctx.Converter = JsonDateTimeConverter.Default);
+
+            serializer.SetContext<DateTime>(new JsonNodeSerializationContext {
+                Converter = JsonDateTimeConverter.Default
+            });
 
             return serializer;
         }
