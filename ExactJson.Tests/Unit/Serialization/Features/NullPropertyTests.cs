@@ -2,7 +2,7 @@
 
 using NUnit.Framework;
 
-namespace ExactJson.Tests.Unit.Serialization
+namespace ExactJson.Tests.Unit.Serialization.Features
 {
     public class NullPropertyTests
     {
