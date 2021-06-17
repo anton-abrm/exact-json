@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 
 using ExactJson.Infra;
-using ExactJson.Serialization.Converters;
 using ExactJson.Serialization.Meta;
 
 namespace ExactJson.Serialization
@@ -195,6 +194,10 @@ namespace ExactJson.Serialization
 
         private void SerializeObject(JsonWriter writer, MetaTypeObject targetType, MetaTypeObject valueType, object value, Context ctx, Stack<PointerSection> stack)
         {
+            if (valueType.Constructor is null) {
+                throw new InvalidOperationException($"Constructor for object '{valueType.UnwrappedType}' not found.");
+            }
+            
             if (ctx.IsTuple(this)) {
 
                 writer.WriteStartArray();
@@ -258,6 +261,10 @@ namespace ExactJson.Serialization
 
         private void SerializeDictionary(JsonWriter writer, MetaTypeDictionary targetType, IEnumerable value, Context ctx, Stack<PointerSection> stack)
         {
+            if (targetType.Constructor is null) {
+                throw new InvalidOperationException($"Constructor for object '{targetType.UnwrappedType}' not found.");
+            }
+            
             writer.WriteStartObject();
 
             var keyTypeEnum = targetType.KeyType as MetaTypeEnum;
@@ -314,6 +321,10 @@ namespace ExactJson.Serialization
 
         private void SerializeArray(JsonWriter writer, MetaTypeArray type, IEnumerable value, Context ctx, Stack<PointerSection> stack)
         {
+            if (type.Constructor is null) {
+                throw new InvalidOperationException($"Constructor for object '{type.UnwrappedType}' not found.");
+            }
+            
             writer.WriteStartArray();
 
             var index = 0;
@@ -438,7 +449,7 @@ namespace ExactJson.Serialization
         {
             var result = DeserializeAny(reader, targetType, ctx, stack);
 
-            if (result == null) {
+            if (result is null) {
                 if (!ctx.IsOptional(this) || !targetType.IsNullAssignable) {
                     throw new JsonMissingRequiredValueException();
                 }
@@ -666,7 +677,7 @@ namespace ExactJson.Serialization
 
                 stack.Push(new PointerSection(property.Name));
 
-                if (value == null) {
+                if (value is null) {
                     if (!childCtx.IsOptional(this) || !property.Type.IsNullAssignable) {
                         throw new JsonMissingRequiredValueException();
                     }
@@ -724,7 +735,7 @@ namespace ExactJson.Serialization
 
                     var constructor = meta.Constructor;
                     if (constructor is null) {
-                        throw new JsonInvalidTypeException();
+                        throw new InvalidOperationException($"Constructor for object '{targetType.UnwrappedType}' not found.");
                     }
 
                     var result = constructor();
