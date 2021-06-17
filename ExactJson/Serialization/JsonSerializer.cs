@@ -95,6 +95,13 @@ namespace ExactJson.Serialization
             return null;
         }
 
+        private static void CheckConstructor(MetaType type)
+        {
+            if (type.Constructor is null) {
+                throw new JsonInvalidTypeException($"Constructor on type '{type.UnwrappedType}' not found.");
+            }
+        }
+
         #region Serialize
 
         public void Serialize(Type type, JsonWriter writer, object value, JsonNodeSerializationContext context)
@@ -194,9 +201,7 @@ namespace ExactJson.Serialization
 
         private void SerializeObject(JsonWriter writer, MetaTypeObject targetType, MetaTypeObject valueType, object value, Context ctx, Stack<PointerSection> stack)
         {
-            if (valueType.Constructor is null) {
-                throw new InvalidOperationException($"Constructor for object '{valueType.UnwrappedType}' not found.");
-            }
+            CheckConstructor(valueType);
             
             if (ctx.IsTuple(this)) {
 
@@ -247,7 +252,7 @@ namespace ExactJson.Serialization
                     return;
                 }
 
-                if (!_typeAliasesReverse.TryGetValue(valueType, out string alias)) {
+                if (!_typeAliasesReverse.TryGetValue(valueType, out var alias)) {
                     throw new JsonInvalidTypeException($"Type {valueType.UnwrappedType} must have alias.");
                 }
 
@@ -261,9 +266,7 @@ namespace ExactJson.Serialization
 
         private void SerializeDictionary(JsonWriter writer, MetaTypeDictionary targetType, IEnumerable value, Context ctx, Stack<PointerSection> stack)
         {
-            if (targetType.Constructor is null) {
-                throw new InvalidOperationException($"Constructor for object '{targetType.UnwrappedType}' not found.");
-            }
+            CheckConstructor(targetType);
             
             writer.WriteStartObject();
 
@@ -321,9 +324,7 @@ namespace ExactJson.Serialization
 
         private void SerializeArray(JsonWriter writer, MetaTypeArray type, IEnumerable value, Context ctx, Stack<PointerSection> stack)
         {
-            if (type.Constructor is null) {
-                throw new InvalidOperationException($"Constructor for object '{type.UnwrappedType}' not found.");
-            }
+            CheckConstructor(type);
             
             writer.WriteStartArray();
 
@@ -499,6 +500,8 @@ namespace ExactJson.Serialization
 
         private object DeserializeDictionary(JsonReader reader, MetaTypeDictionary dictType, Context ctx, Stack<PointerSection> stack)
         {
+            CheckConstructor(dictType);
+            
             var result = dictType.Constructor();
 
             reader.ReadStartObject();
@@ -610,12 +613,9 @@ namespace ExactJson.Serialization
                 reader.ReadStartObject();
             }
 
-            var constructor = meta.Constructor;
-            if (constructor is null) {
-                throw new JsonInvalidTypeException();
-            }
+            CheckConstructor(meta);
 
-            var result = constructor();
+            var result = meta.Constructor();
 
             var processed = new Dictionary<string, object>();
 
@@ -697,12 +697,9 @@ namespace ExactJson.Serialization
 
                 case MetaTypeArray metaArray:
                 {
-                    var constructor = metaArray.Constructor;
-                    if (constructor is null) {
-                        throw new InvalidOperationException($"Constructor for array '{targetType.UnwrappedType}' not found.");
-                    }
+                    CheckConstructor(metaArray);
 
-                    var result = constructor();
+                    var result = metaArray.Constructor();
 
                     reader.ReadStartArray();
 
@@ -733,12 +730,9 @@ namespace ExactJson.Serialization
                         }
                     }
 
-                    var constructor = meta.Constructor;
-                    if (constructor is null) {
-                        throw new InvalidOperationException($"Constructor for object '{targetType.UnwrappedType}' not found.");
-                    }
+                    CheckConstructor(meta);
 
-                    var result = constructor();
+                    var result = meta.Constructor();
 
                     int index = 0;
 
