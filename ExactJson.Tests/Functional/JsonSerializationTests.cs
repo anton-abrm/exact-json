@@ -93,6 +93,7 @@ namespace ExactJson.Tests.Functional
             [JsonOptional]
             [JsonFormat("yyyy-MM-ddTHH:mm:ss.fff")]
             [JsonNode("year")]
+            [JsonConverter(typeof(JsonDateTimeConverter))]
             public DateTime? Year { get; set; }
 
             [JsonOptional]
@@ -194,6 +195,7 @@ namespace ExactJson.Tests.Functional
         private sealed class VatRates
         {
             [JsonNode("details")]
+            [JsonConverter(typeof(JsonUriConverter))]
             public Uri Details { get; set; }
 
             [JsonNode("version"), JsonOptional, JsonSerializeNull]
@@ -314,7 +316,9 @@ namespace ExactJson.Tests.Functional
             [JsonNode("base")]
             public ExchangeRatesCurrency Base { get; set; }
 
-            [JsonNode("date"), JsonFormat("yyyy-MM-dd")]
+            [JsonNode("date")]
+            [JsonFormat("yyyy-MM-dd")]
+            [JsonConverter(typeof(JsonDateTimeConverter))]
             public DateTime Date { get; set; }
 
             [JsonNode("time_last_updated")]
@@ -490,6 +494,7 @@ namespace ExactJson.Tests.Functional
             public long Generated { get; set; }
 
             [JsonNode("url")]
+            [JsonConverter(typeof(JsonUriConverter))]
             public Uri Url { get; set; }
 
             [JsonNode("title")]
@@ -499,6 +504,7 @@ namespace ExactJson.Tests.Functional
             public int Status { get; set; }
 
             [JsonNode("api")]
+            [JsonConverter(typeof(JsonVersionConverter))]
             public Version Api { get; set; }
 
             [JsonNode("count")]
@@ -538,9 +544,11 @@ namespace ExactJson.Tests.Functional
             public string Tz { get; set; }
 
             [JsonNode("url")]
+            [JsonConverter(typeof(JsonUriConverter))]
             public Uri Url { get; set; }
 
             [JsonNode("detail")]
+            [JsonConverter(typeof(JsonUriConverter))]
             public Uri Detail { get; set; }
 
             [JsonNode("felt"), JsonOptional]

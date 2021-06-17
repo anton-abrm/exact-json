@@ -24,18 +24,7 @@ namespace ExactJson.Serialization
 
         private string _typePropertyName = "__type";
         private IFormatProvider _formatProvider = CultureInfo.InvariantCulture;
-
-        public JsonSerializer()
-        {
-            SetupContext<Guid>(ctx => ctx.Converter = JsonGuidConverter.Default);
-            SetupContext<DateTime>(ctx => ctx.Converter = JsonDateTimeConverter.Default);
-            SetupContext<DateTimeOffset>(ctx => ctx.Converter = JsonDateTimeOffsetConverter.Default);
-            SetupContext<TimeSpan>(ctx => ctx.Converter = JsonTimeSpanConverter.Default);
-            SetupContext<byte[]>(ctx => ctx.Converter = JsonByteArrayConverter.Default);
-            SetupContext<Uri>(ctx => ctx.Converter = JsonUriConverter.Default);
-            SetupContext<Version>(ctx => ctx.Converter = JsonVersionConverter.Default);
-        }
-
+        
         public string TypePropertyName
         {
             get => _typePropertyName;

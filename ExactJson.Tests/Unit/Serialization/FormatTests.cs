@@ -34,6 +34,15 @@ namespace ExactJson.Tests.Unit.Serialization
             [JsonCulture("de-DE", ApplyTo = JsonNodeTarget.Item)]
             public Dictionary<string, DateTime> Foo { get; set; }
         }
+
+        private static JsonSerializer CreateSerializer()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetupContext<DateTime>(ctx => ctx.Converter = JsonDateTimeConverter.Default);
+
+            return serializer;
+        }
         
         [Test]
         public void Ctor_DefaultCulture()
@@ -100,7 +109,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Serialize_DefaultCulture()
         {
-            var result =new JsonSerializer().Serialize<DateTime>(new DateTime(2020, 1, 1), new JsonNodeSerializationContext() {
+            var result = CreateSerializer().Serialize<DateTime>(new DateTime(2020, 1, 1), new JsonNodeSerializationContext() {
                 Format = "D",
             });
 
@@ -110,7 +119,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_DefaultCulture()
         {
-            var result =new JsonSerializer().Deserialize<DateTime>("\"Wednesday, 01 January 2020\"", new JsonNodeSerializationContext() {
+            var result = CreateSerializer().Deserialize<DateTime>("\"Wednesday, 01 January 2020\"", new JsonNodeSerializationContext() {
                 Format = "D",
             });
 
@@ -120,7 +129,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Serialize_CustomContextCulture()
         {
-            var result =new JsonSerializer().Serialize<DateTime>(new DateTime(2020, 1, 1), new JsonNodeSerializationContext() {
+            var result = CreateSerializer().Serialize<DateTime>(new DateTime(2020, 1, 1), new JsonNodeSerializationContext() {
                 Format = "D",
                 FormatProvider = CultureInfo.CreateSpecificCulture("de-DE")
             });
@@ -131,7 +140,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_CustomContextCulture()
         {
-            var result =new JsonSerializer().Deserialize<DateTime>("\"Mittwoch, 1. Januar 2020\"", new JsonNodeSerializationContext() {
+            var result = CreateSerializer().Deserialize<DateTime>("\"Mittwoch, 1. Januar 2020\"", new JsonNodeSerializationContext() {
                 Format = "D",
                 FormatProvider = CultureInfo.CreateSpecificCulture("de-DE")
             });
@@ -142,9 +151,11 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Serialize_CustomCulture()
         {
-            var result =new JsonSerializer {
-                FormatProvider =  CultureInfo.CreateSpecificCulture("de-DE")
-            }.Serialize<DateTime>(new DateTime(2020, 1, 1), new JsonNodeSerializationContext() {
+            var serializer = CreateSerializer();
+
+            serializer.FormatProvider = CultureInfo.CreateSpecificCulture("de-DE");
+            
+            var result = serializer.Serialize<DateTime>(new DateTime(2020, 1, 1), new JsonNodeSerializationContext() {
                 Format = "D"
             });
 
@@ -154,9 +165,11 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_CustomCulture()
         {
-            var result =new JsonSerializer {
-                FormatProvider =  CultureInfo.CreateSpecificCulture("de-DE")
-            }.Deserialize<DateTime>("\"Mittwoch, 1. Januar 2020\"", new JsonNodeSerializationContext() {
+            var serializer = CreateSerializer();
+            
+            serializer.FormatProvider = CultureInfo.CreateSpecificCulture("de-DE");
+            
+            var result = serializer.Deserialize<DateTime>("\"Mittwoch, 1. Januar 2020\"", new JsonNodeSerializationContext() {
                 Format = "D"
             });
 
@@ -166,7 +179,9 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Serialize_CultureAttribute()
         {
-            var result = new JsonSerializer().Serialize<ClassWithFormattedField>(
+            var serializer = CreateSerializer();
+
+            var result = serializer.Serialize<ClassWithFormattedField>(
                 new ClassWithFormattedField {
                     Foo = new DateTime(2020, 1, 1)
             });
@@ -177,7 +192,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_CultureAttribute()
         {
-            var result = new JsonSerializer().Deserialize<ClassWithFormattedField>(
+            var result = CreateSerializer().Deserialize<ClassWithFormattedField>(
                 "{\"foo\":\"Mittwoch, 1. Januar 2020\"}");
             
             Assert.That(result, Is.Not.Null);
@@ -192,9 +207,7 @@ namespace ExactJson.Tests.Unit.Serialization
                 [new DateTime(2020, 1, 1)] = "1",
             };
 
-            var serializer = new JsonSerializer();
-            
-            var result = serializer.Serialize<Dictionary<DateTime, String>>(
+            var result = CreateSerializer().Serialize<Dictionary<DateTime, String>>(
                 d, new JsonNodeSerializationContext() {
                 KeyContext = new JsonKeySerializationContext() {
                     Format = "D",
@@ -208,9 +221,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_Dictionary_KeyContext()
         {
-            var serializer = new JsonSerializer();
-            
-            var result = serializer.Deserialize<Dictionary<DateTime, String>>(
+            var result = CreateSerializer().Deserialize<Dictionary<DateTime, String>>(
                 "{\"Mittwoch, 1. Januar 2020\":\"1\"}", 
                 new JsonNodeSerializationContext() {
                 KeyContext = new JsonKeySerializationContext() {
@@ -231,9 +242,7 @@ namespace ExactJson.Tests.Unit.Serialization
                 [1] = new DateTime(2020, 1, 1),
             };
 
-            var serializer = new JsonSerializer();
-            
-            var result = serializer.Serialize<Dictionary<int, DateTime>>(d, new JsonNodeSerializationContext() {
+            var result = CreateSerializer().Serialize<Dictionary<int, DateTime>>(d, new JsonNodeSerializationContext() {
                 KeyContext = new JsonKeySerializationContext() {
                     Converter = JsonNumberConverter.Default
                 },
@@ -249,9 +258,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_Dictionary_ItemContext()
         {
-            var serializer = new JsonSerializer();
-            
-            var result = serializer.Deserialize<Dictionary<int, DateTime>>(
+            var result = CreateSerializer().Deserialize<Dictionary<int, DateTime>>(
                 "{\"1\":\"Mittwoch, 1. Januar 2020\"}", 
                 new JsonNodeSerializationContext {
                     KeyContext = new JsonKeySerializationContext() {
@@ -274,10 +281,8 @@ namespace ExactJson.Tests.Unit.Serialization
             {
                new DateTime(2020, 1, 1),
             };
-
-            var serializer = new JsonSerializer();
             
-            var result = serializer.Serialize<List<DateTime>>(d, new JsonNodeSerializationContext() {
+            var result = CreateSerializer().Serialize<List<DateTime>>(d, new JsonNodeSerializationContext() {
                 ItemContext = new JsonItemSerializationContext() {
                     Format = "D",
                     FormatProvider = CultureInfo.GetCultureInfo("de-DE")
@@ -290,9 +295,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_List_CustomItemContext()
         {
-            var serializer = new JsonSerializer();
-            
-            var result = serializer.Deserialize<List<DateTime>>(
+            var result = CreateSerializer().Deserialize<List<DateTime>>(
                 "[\"Mittwoch, 1. Januar 2020\"]", 
                 new JsonNodeSerializationContext {
                     ItemContext = new JsonItemSerializationContext {
@@ -314,9 +317,7 @@ namespace ExactJson.Tests.Unit.Serialization
                 }
             };
 
-            var serializer = new JsonSerializer();
-            
-            var result = serializer.Serialize<ClassWithFormattedMapKey>(o);
+            var result = CreateSerializer().Serialize<ClassWithFormattedMapKey>(o);
 
             Assert.That(result, Is.EqualTo("{\"foo\":{\"Mittwoch, 1. Januar 2020\":\"1\"}}"));
         }
@@ -324,7 +325,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_ClassWithFormattedMapKey()
         {
-            var serializer = new JsonSerializer();
+            var serializer = CreateSerializer();
             
             var result = serializer.Deserialize<ClassWithFormattedMapKey>(
                 "{\"foo\":{\"Mittwoch, 1. Januar 2020\":\"1\"}}");
@@ -343,10 +344,8 @@ namespace ExactJson.Tests.Unit.Serialization
                     ["1"] = new DateTime(2020, 1, 1),
                 }
             };
-
-            var serializer = new JsonSerializer();
             
-            var result = serializer.Serialize<ClassWithFormattedMapItem>(o);
+            var result = CreateSerializer().Serialize<ClassWithFormattedMapItem>(o);
 
             Assert.That(result, Is.EqualTo("{\"foo\":{\"1\":\"Mittwoch, 1. Januar 2020\"}}"));
         }
@@ -354,9 +353,7 @@ namespace ExactJson.Tests.Unit.Serialization
         [Test]
         public void Deserialize_ClassWithFormattedMapItem()
         {
-            var serializer = new JsonSerializer();
-            
-            var result = serializer.Deserialize<ClassWithFormattedMapItem>(
+            var result = CreateSerializer().Deserialize<ClassWithFormattedMapItem>(
                 "{\"foo\":{\"1\":\"Mittwoch, 1. Januar 2020\"}}");
             
             Assert.That(result, Is.Not.Null);
