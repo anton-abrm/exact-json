@@ -32,7 +32,6 @@ namespace ExactJson.Serialization.Meta
             => MetaTypeCode.Array;
 
         public MetaType ItemType { get; }
-        public Func<object> Constructor { get; }
         public Action<object, object> AddInvoker { get; }
 
         public MetaTypeArray(Type type)
@@ -46,11 +45,6 @@ namespace ExactJson.Serialization.Meta
             var itemType = collectionType.GetGenericArguments()[0];
 
             ItemType = FromType(itemType);
-
-            var constructorInfo = type.GetConstructor(Type.EmptyTypes);
-            if (constructorInfo != null) {
-                Constructor = ReflectionUtil.CreateDefaultConstructor<object>(constructorInfo);
-            }
 
             var clearMethod = collectionType.GetMethod("Clear", Type.EmptyTypes);
             if (clearMethod is null) {

@@ -17,6 +17,16 @@ namespace ExactJson.Serialization.Meta
             IsNullAssignable = ReflectionUtil.IsNullAssignable(type);
             UnwrappedType = ReflectionUtil.UnwrapNullable(type);
 
+            if (type.IsValueType) {
+                Constructor = ReflectionUtil.CreateDefaultConstructor<object>(type);
+            }
+            else {
+                var ci = type.GetConstructor(Type.EmptyTypes);
+                if (ci != null) {
+                    Constructor = ReflectionUtil.CreateDefaultConstructor<object>(ci);
+                }
+            }
+            
             Context = MetaContext.TryCreate(UnwrappedType, UnwrappedType, JsonNodeTarget.Node);
         }
         
@@ -27,6 +37,7 @@ namespace ExactJson.Serialization.Meta
         public bool IsNullable { get; }
         public bool IsNullAssignable { get; }
         public Type UnwrappedType { get; }
+        public Func<object> Constructor { get; }
 
         private static readonly ConcurrentDictionary<Type, MetaType> Cache =
             new ConcurrentDictionary<Type, MetaType>();

@@ -8,34 +8,15 @@ namespace ExactJson.Serialization.Meta
 {
     internal sealed class MetaTypeObject : MetaType
     {
-        public Func<object> Constructor { get; }
-
         public MetaPropertyCollection Properties { get; } = new MetaPropertyCollection();
 
         public override MetaTypeCode MetaCode => MetaTypeCode.Object;
-
-        private static Func<object> TryCreateConstructor(Type type)
-        {
-            if (type.IsValueType) {
-                return ReflectionUtil.CreateDefaultConstructor<object>(type);
-            }
-
-            var ci = type.GetConstructor(Type.EmptyTypes);
-
-            if (ci is null) {
-                return null;
-            }
-
-            return ReflectionUtil.CreateDefaultConstructor<object>(ci);
-        }
 
         public MetaTypeObject(Type type) : base(type)
         {
             if (type.IsAbstract) {
                 return;
             }
-
-            Constructor = TryCreateConstructor(type);
 
             var properties = type.GetProperties(BindingFlags.Instance |
                                                 BindingFlags.Public |

@@ -31,8 +31,7 @@ namespace ExactJson.Serialization.Meta
 
         public MetaType KeyType { get; }
         public MetaType ValueType { get; }
-
-        public Func<object> Constructor { get; }
+        
         public Action<object> ClearInvoker { get; }
         public Action<object, object, object> AddInvoker { get; }
 
@@ -55,13 +54,6 @@ namespace ExactJson.Serialization.Meta
             
             KeyType = FromType(keyType);
             ValueType = FromType(valueType);
-
-            var constructorInfo = type.GetConstructor(Type.EmptyTypes);
-            if (constructorInfo is null) {
-                throw new InvalidOperationException($"Default constructor for type '{type}' not found.");
-            }
-
-            Constructor = ReflectionUtil.CreateDefaultConstructor<object>(constructorInfo);
             
             GetEnumeratorInvoker = ReflectionUtil.CreateFuncMethodInvoker<object, IEnumerator>(
                 typeof(IEnumerable<>).MakeGenericType(kvpType)
