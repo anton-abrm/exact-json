@@ -6,8 +6,6 @@ namespace ExactJson.Serialization.Converters
     {
         private const string DefaultFormat = "D";
 
-        public static JsonGuidConverter Default { get; } = new JsonGuidConverter();
-
         public override string GetString(object value, JsonConverterContext context)
         {
             if (value is null) {

@@ -7,8 +7,6 @@ namespace ExactJson.Serialization.Converters
     {
         private const string DefaultFormat = "yyyy-MM-ddTHH:mm:ss";
 
-        public static JsonDateTimeConverter Default { get; } = new JsonDateTimeConverter();
-
         public override string GetString(object value, JsonConverterContext context)
         {
             if (value is null) {

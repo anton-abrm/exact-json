@@ -40,7 +40,7 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             var serializer = new JsonSerializer();
 
             serializer.SetContext<DateTime>(new JsonNodeSerializationContext {
-                Converter = JsonDateTimeConverter.Default
+                Converter = new JsonDateTimeConverter()
             });
 
             return serializer;
@@ -246,7 +246,7 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 
             var result = CreateSerializer().Serialize<Dictionary<int, DateTime>>(d, new JsonNodeSerializationContext() {
                 KeyContext = new JsonKeySerializationContext() {
-                    Converter = JsonNumberConverter.Default
+                    Converter = new JsonNumberConverter()
                 },
                 ItemContext = new JsonItemSerializationContext() {
                     Format = "D",
@@ -264,7 +264,7 @@ namespace ExactJson.Tests.Unit.Serialization.Features
                 "{\"1\":\"Mittwoch, 1. Januar 2020\"}", 
                 new JsonNodeSerializationContext {
                     KeyContext = new JsonKeySerializationContext() {
-                        Converter = JsonNumberConverter.Default
+                        Converter = new JsonNumberConverter()
                     },
                     ItemContext = new JsonItemSerializationContext {
                         Format = "D",

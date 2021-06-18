@@ -6,9 +6,7 @@ namespace ExactJson.Serialization.Converters
     public sealed class JsonDateTimeOffsetConverter : JsonStringConverter
     {
         private const string DefaultFormat = "yyyy-MM-ddTHH:mm:sszzz";
-
-        public static JsonDateTimeOffsetConverter Default { get; } = new JsonDateTimeOffsetConverter();
-
+        
         public override string GetString(object value, JsonConverterContext context)
         {
             return ((DateTimeOffset) value).ToString(

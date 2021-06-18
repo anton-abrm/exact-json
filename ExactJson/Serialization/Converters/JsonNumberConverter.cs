@@ -5,8 +5,6 @@ namespace ExactJson.Serialization.Converters
 {
     public sealed class JsonNumberConverter : JsonStringConverter
     {
-        public static JsonNumberConverter Default { get; } = new JsonNumberConverter();
-        
         private static readonly Dictionary<Type, TypeCode> Map;
 
         static JsonNumberConverter()

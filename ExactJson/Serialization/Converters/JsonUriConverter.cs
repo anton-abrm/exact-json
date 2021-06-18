@@ -4,8 +4,6 @@ namespace ExactJson.Serialization.Converters
 {
     public sealed class JsonUriConverter : JsonStringConverter
     {
-        public static JsonUriConverter Default { get; } = new JsonUriConverter();
-        
         public override string GetString(object value, JsonConverterContext context)
         {
             if (value is null) {

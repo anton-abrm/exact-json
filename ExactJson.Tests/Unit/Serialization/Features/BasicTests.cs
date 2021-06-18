@@ -292,10 +292,10 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 
             var result = serializer.Serialize<Dictionary<int, int>>(d, new JsonNodeSerializationContext() {
                 KeyContext = new JsonKeySerializationContext {
-                    Converter = JsonNumberConverter.Default
+                    Converter = new JsonNumberConverter()
                 },
                 ItemContext = new JsonItemSerializationContext {
-                    Converter = JsonNumberConverter.Default
+                    Converter = new JsonNumberConverter()
                 }
             });
 
@@ -309,10 +309,10 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 
             var result = serializer.Deserialize<Dictionary<int, int>>("{\"1\":\"2\"}", new JsonNodeSerializationContext() {
                 KeyContext = new JsonKeySerializationContext {
-                    Converter = JsonNumberConverter.Default
+                    Converter = new JsonNumberConverter()
                 },
                 ItemContext = new JsonItemSerializationContext {
-                    Converter = JsonNumberConverter.Default
+                    Converter = new JsonNumberConverter()
                 }
             });
 
@@ -331,7 +331,7 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 
             var result = serializer.Serialize<Dictionary<DemoEnum, int>>(d, new JsonNodeSerializationContext() {
                 ItemContext = new JsonItemSerializationContext {
-                    Converter = JsonNumberConverter.Default
+                    Converter = new JsonNumberConverter()
                 }
             });
 
@@ -345,7 +345,7 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 
             var result = serializer.Deserialize<Dictionary<DemoEnum, int>>("{\"A\":\"2\"}", new JsonNodeSerializationContext() {
                 ItemContext = new JsonItemSerializationContext {
-                    Converter = JsonNumberConverter.Default
+                    Converter = new JsonNumberConverter()
                 }
             });
 

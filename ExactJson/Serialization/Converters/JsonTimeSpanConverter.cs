@@ -7,8 +7,6 @@ namespace ExactJson.Serialization.Converters
     {
         private const string DefaultFormat = "hh\\:mm\\:ss";
 
-        public static JsonTimeSpanConverter Default { get; } = new JsonTimeSpanConverter();
-
         public override string GetString(object value, JsonConverterContext context)
         {
             if (value is null) {

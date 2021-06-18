@@ -8,9 +8,7 @@ namespace ExactJson.Serialization.Converters
     {
         public const string Base64Format = "Base64";
         public const string Base16Format = "Base16";
-
-        public static JsonByteArrayConverter Default { get; } = new JsonByteArrayConverter();
-
+        
         public override string GetString(object value, JsonConverterContext context)
         {
             if (value is null) {
