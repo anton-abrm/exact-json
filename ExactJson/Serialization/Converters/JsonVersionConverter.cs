@@ -15,6 +15,10 @@ namespace ExactJson.Serialization.Converters
 
         public override object GetValue(string s, JsonConverterContext context)
         {
+            if (s is null) {
+                throw new ArgumentNullException(nameof(s));
+            }
+
             if (Version.TryParse(s, out var version)) {
                 return version;
             }
