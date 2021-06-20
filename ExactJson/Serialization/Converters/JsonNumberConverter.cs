@@ -188,7 +188,7 @@ namespace ExactJson.Serialization.Converters
                     return (ulong) value;
 
                 default:
-                    throw new InvalidOperationException($"Target type '{targetType}' not supported.");
+                    throw new ArgumentException($"Target type '{targetType}' not supported.", nameof(targetType));
             }
         }
 
@@ -201,7 +201,7 @@ namespace ExactJson.Serialization.Converters
                 throw new JsonInvalidValueException();
             }
             catch (OverflowException) {
-                throw new JsonInvalidValueException();
+                throw new JsonValueOutOfRangeException();
             }
         }
         
