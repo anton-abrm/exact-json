@@ -284,7 +284,7 @@ namespace ExactJson.Tests.Unit
         public void Diff_Value(string left, string right)
         {
             var n1 = JsonNode.Parse(left);
-            var n2 = right != null
+            var n2 = right is not null
                 ? JsonNode.Parse(right)
                 : null;
 

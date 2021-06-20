@@ -22,7 +22,7 @@ namespace ExactJson.Serialization.Meta
             }
             else {
                 var ci = type.GetConstructor(Type.EmptyTypes);
-                if (ci != null) {
+                if (ci is not null) {
                     Constructor = ReflectionUtil.CreateDefaultConstructor<object>(ci);
                 }
             }

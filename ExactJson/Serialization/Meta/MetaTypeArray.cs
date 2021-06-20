@@ -14,7 +14,7 @@ namespace ExactJson.Serialization.Meta
                 throw new ArgumentNullException(nameof(type));
             }
 
-            return GetCollectionType(type) != null;
+            return GetCollectionType(type) is not null;
         }
         
         private static Type GetCollectionType(Type type)
@@ -60,7 +60,7 @@ namespace ExactJson.Serialization.Meta
 
             var childContext = MetaContext.TryCreate(ItemType.UnwrappedType, UnwrappedType, JsonNodeTarget.Item);
 
-            if (childContext != null) {
+            if (childContext is not null) {
 
                 if (Context is null) {
                     Context = new MetaContext();

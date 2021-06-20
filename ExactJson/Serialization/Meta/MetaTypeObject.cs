@@ -24,7 +24,7 @@ namespace ExactJson.Serialization.Meta
 
             Properties.AddRange(from prop in properties
                                 let attr = prop.GetCustomAttributes(true).OfType<JsonNodeAttribute>().FirstOrDefault()
-                                where attr != null
+                                where attr is not null
                                 orderby attr.Position
                                 let meta = FromType(prop.PropertyType)
                                 select new MetaProperty(meta, prop, attr));

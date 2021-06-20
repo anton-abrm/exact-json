@@ -91,7 +91,7 @@ namespace ExactJson.Tests.Unit
 
             var node = (JsonNumber) jw.GetNode();
 
-            var expectedFormat = format != null
+            var expectedFormat = format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value);
             

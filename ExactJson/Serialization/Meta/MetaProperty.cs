@@ -40,7 +40,7 @@ namespace ExactJson.Serialization.Meta
                 
                 var childContext = MetaContext.TryCreate(containerType.ChildType.UnwrappedType, propertyInfo, JsonNodeTarget.Item);
                 
-                if (childContext != null) {
+                if (childContext is not null) {
 
                     if (Context is null) {
                         Context = new MetaContext();
@@ -54,7 +54,7 @@ namespace ExactJson.Serialization.Meta
                 
                 var keyContext = MetaContext.TryCreate(dictionaryType.KeyType.UnwrappedType, propertyInfo, JsonNodeTarget.Key);
                 
-                if (keyContext != null) {
+                if (keyContext is not null) {
 
                     if (Context is null) {
                         Context = new MetaContext();

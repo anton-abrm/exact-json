@@ -15,7 +15,7 @@ namespace ExactJson.Serialization.Meta
                 throw new ArgumentNullException(nameof(type));
             }
 
-            return GetDictionaryType(type) != null;
+            return GetDictionaryType(type) is not null;
         }
 
         private static Type GetDictionaryType(Type type)
@@ -66,7 +66,7 @@ namespace ExactJson.Serialization.Meta
             ValueGetter = ReflectionUtil.CreatePropertyGetter<object, object>(kvpType.GetProperty("Value"));
 
             var childContext = MetaContext.TryCreate(ValueType.UnwrappedType, UnwrappedType, JsonNodeTarget.Item);
-            if (childContext != null) {
+            if (childContext is not null) {
 
                 if (Context is null) {
                     Context = new MetaContext();
@@ -76,7 +76,7 @@ namespace ExactJson.Serialization.Meta
             }
             
             var keyContext = MetaContext.TryCreate(KeyType.UnwrappedType, UnwrappedType, JsonNodeTarget.Key);
-            if (keyContext != null) {
+            if (keyContext is not null) {
 
                 if (Context is null) {
                     Context = new MetaContext();

@@ -27,7 +27,7 @@ namespace ExactJson.Serialization
             {
                 NodeContextWrapper boundContext = null;
                 
-                for (var curr = meta.UnwrappedType; curr != null; curr = curr.BaseType) {
+                for (var curr = meta.UnwrappedType; curr is not null; curr = curr.BaseType) {
                     if (serializer._contexts.TryGetValue(curr, out boundContext)) {
                        break;
                     }

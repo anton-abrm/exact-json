@@ -152,12 +152,12 @@ namespace ExactJson.Serialization
                 return;
             }
 
-            if (propertyName != null) {
+            if (propertyName is not null) {
                 writer.WriteProperty(propertyName);
             }
 
             var converter = ctx.GetConverter();
-            if (converter != null) {
+            if (converter is not null) {
                 
                 writer.WriteString(converter.GetString(value, new JsonConverterContext {
                     Format = ctx.GetFormat(),
@@ -290,14 +290,14 @@ namespace ExactJson.Serialization
                     
                     string name;
 
-                    if (converter != null) {
+                    if (converter is not null) {
                         name = converter.GetString(key, new JsonConverterContext {
                             Format = keyCtx.GetFormat(),
                             FormatProvider = keyCtx.GetFormatProvider(this),
                             TargetType = targetType.KeyType.UnwrappedType
                         });
                     }
-                    else if (keyTypeEnum != null) {
+                    else if (keyTypeEnum is not null) {
                         name = keyTypeEnum.GetName((Enum) key);
                     }
                     else {
@@ -463,7 +463,7 @@ namespace ExactJson.Serialization
         private object DeserializeAny(JsonReader reader, MetaType targetType, Context ctx, Stack<PointerSection> stack)
         {
             var converter = ctx.GetConverter();
-            if (converter != null) {
+            if (converter is not null) {
                 return converter.GetValue(reader.ReadString(), new JsonConverterContext {
                     Format = ctx.GetFormat(),
                     FormatProvider = ctx.GetFormatProvider(this),
@@ -520,14 +520,14 @@ namespace ExactJson.Serialization
 
                 object key;
 
-                if (keyConverter != null) {
+                if (keyConverter is not null) {
                     key = keyConverter.GetValue(propertyName, new JsonConverterContext {
                         Format = keyCtx.GetFormat(),
                         FormatProvider = keyCtx.GetFormatProvider(this),
                         TargetType = dictType.KeyType.UnwrappedType
                     });
                 }
-                else if (keyTypeEnum != null) {
+                else if (keyTypeEnum is not null) {
                     key = keyTypeEnum.TryGetValue(keyTypeEnum.UnwrappedType, propertyName);
                 }
                 else {
@@ -601,7 +601,7 @@ namespace ExactJson.Serialization
                     }
                 }
 
-                if (typeAlias != null) {
+                if (typeAlias is not null) {
 
                     if (!_typeAliases.TryGetValue(typeAlias, out var type)) {
                         throw new JsonInvalidTypeException();
@@ -630,7 +630,7 @@ namespace ExactJson.Serialization
 
                         var value = reader.ReadString();
 
-                        if (typeAlias != null && typeAlias == value) {
+                        if (typeAlias is not null && typeAlias == value) {
                             continue;
                         }
 

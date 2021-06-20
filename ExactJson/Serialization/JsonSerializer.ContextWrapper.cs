@@ -27,14 +27,14 @@ namespace ExactJson.Serialization
             private T GetValue<T>(Func<IMetaContext, T> valueSelector)
             {
                 var selfCtx = SelectContext(NodeContext);
-                if (selfCtx != null) {
+                if (selfCtx is not null) {
                     var selfValue = valueSelector(selfCtx);
-                    if (selfValue != null) {
+                    if (selfValue is not null) {
                         return selfValue;
                     }
                 }
 
-                for (var type = Type.BaseType; type != null; type = type.BaseType) {
+                for (var type = Type.BaseType; type is not null; type = type.BaseType) {
 
                     if (!Serializer._contexts.TryGetValue(type, out var wrapper)) {
                         continue;

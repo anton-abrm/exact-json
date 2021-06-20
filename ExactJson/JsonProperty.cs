@@ -34,8 +34,8 @@ namespace ExactJson
         {
             unchecked {
                 var hash = 17;
-                hash = hash * 23 + (Name != null ? Name.GetHashCode() : 0);
-                hash = hash * 23 + (Value != null ? Value.GetHashCode() : 0);
+                hash = hash * 23 + (Name is not null ? Name.GetHashCode() : 0);
+                hash = hash * 23 + (Value is not null ? Value.GetHashCode() : 0);
                 return hash;
             }
         }

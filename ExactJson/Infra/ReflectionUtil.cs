@@ -22,7 +22,7 @@ namespace ExactJson.Infra
                 throw new ArgumentNullException(nameof(type));
             }
 
-            return Nullable.GetUnderlyingType(type) != null;
+            return Nullable.GetUnderlyingType(type) is not null;
         }
 
         public static Type UnwrapNullable(Type type)
@@ -40,7 +40,7 @@ namespace ExactJson.Infra
                 throw new ArgumentNullException(nameof(type));
             }
 
-            for (var baseType = type.BaseType; baseType != null; baseType = baseType.BaseType) {
+            for (var baseType = type.BaseType; baseType is not null; baseType = baseType.BaseType) {
                 yield return baseType;
             }
         }

@@ -19,21 +19,21 @@ namespace ExactJson
 
         public static JsonNumber Create(float value, string format = null)
         {
-            return Create((JsonDecimal) value, format != null
+            return Create((JsonDecimal) value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public static JsonNumber Create(double value, string format = null)
         {
-            return Create((JsonDecimal) value, format != null
+            return Create((JsonDecimal) value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public static JsonNumber Create(decimal value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -41,14 +41,14 @@ namespace ExactJson
         [CLSCompliant(false)]
         public static JsonNumber Create(sbyte value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public static JsonNumber Create(byte value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -56,14 +56,14 @@ namespace ExactJson
         [CLSCompliant(false)]
         public static JsonNumber Create(ushort value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public static JsonNumber Create(short value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -71,14 +71,14 @@ namespace ExactJson
         [CLSCompliant(false)]
         public static JsonNumber Create(uint value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public static JsonNumber Create(int value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -86,14 +86,14 @@ namespace ExactJson
         [CLSCompliant(false)]
         public static JsonNumber Create(ulong value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public static JsonNumber Create(long value, string format = null)
         {
-            return Create(value, format != null
+            return Create(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -122,7 +122,7 @@ namespace ExactJson
 
         public bool Equals(JsonNumber other)
         {
-            return other != null && other.Value == Value;
+            return other is not null && other.Value == Value;
         }
 
         public override int GetHashCode()

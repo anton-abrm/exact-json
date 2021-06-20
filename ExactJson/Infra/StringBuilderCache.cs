@@ -15,7 +15,7 @@ namespace ExactJson.Infra
             if (capacity <= MaxCapacity) {
                 var instance = _instance;
 
-                if (instance != null && capacity <= instance.Capacity) {
+                if (instance is not null && capacity <= instance.Capacity) {
                     _instance = null;
 
                     instance.Clear();

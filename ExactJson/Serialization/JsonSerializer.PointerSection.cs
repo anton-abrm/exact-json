@@ -21,7 +21,7 @@ namespace ExactJson.Serialization
 
             public JsonPointer AttachTo(JsonPointer pointer)
             {
-                return _name != null
+                return _name is not null
                     ? pointer.Attach(_name)
                     : pointer.Attach(_index);
             }

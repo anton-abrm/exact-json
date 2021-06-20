@@ -39,7 +39,7 @@ namespace ExactJson.Serialization.Meta
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if (Dictionary != null && Dictionary.TryGetValue(name, out var value)) {
+            if (Dictionary is not null && Dictionary.TryGetValue(name, out var value)) {
                 return value;
             }
 

@@ -648,7 +648,7 @@ namespace ExactJson
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            if (format != null) {
+            if (format is not null) {
                 return ToString(JsonNumberFormat.Parse(format));
             }
 

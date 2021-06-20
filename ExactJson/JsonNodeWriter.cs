@@ -42,7 +42,7 @@ namespace ExactJson
                 throw new InvalidOperationException();
             }
 
-            if (_stack.Peek().Name != null) {
+            if (_stack.Peek().Name is not null) {
                 throw new InvalidOperationException();
             }
 
@@ -91,7 +91,7 @@ namespace ExactJson
                 throw new InvalidOperationException();
             }
             
-            if (_stack.Peek().Name != null) {
+            if (_stack.Peek().Name is not null) {
                 throw new InvalidOperationException();
             }
 

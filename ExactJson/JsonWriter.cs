@@ -18,21 +18,21 @@ namespace ExactJson
 
         public virtual void WriteNumber(double value, string format = null)
         {
-            WriteNumber((JsonDecimal) value, format != null
+            WriteNumber((JsonDecimal) value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public virtual void WriteNumber(float value, string format = null)
         {
-            WriteNumber((JsonDecimal) value, format != null
+            WriteNumber((JsonDecimal) value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public virtual void WriteNumber(decimal value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -40,14 +40,14 @@ namespace ExactJson
         [CLSCompliant(false)]
         public virtual void WriteNumber(sbyte value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public virtual void WriteNumber(byte value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -55,14 +55,14 @@ namespace ExactJson
         [CLSCompliant(false)]
         public virtual void WriteNumber(ushort value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public virtual void WriteNumber(short value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -70,14 +70,14 @@ namespace ExactJson
         [CLSCompliant(false)]
         public virtual void WriteNumber(uint value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public virtual void WriteNumber(int value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
@@ -85,14 +85,14 @@ namespace ExactJson
         [CLSCompliant(false)]
         public virtual void WriteNumber(ulong value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         public virtual void WriteNumber(long value, string format = null)
         {
-            WriteNumber(value, format != null
+            WriteNumber(value, format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }

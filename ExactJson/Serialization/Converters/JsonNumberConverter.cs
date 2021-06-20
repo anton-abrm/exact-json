@@ -21,77 +21,77 @@ namespace ExactJson.Serialization.Converters
 
         private static string GetString(byte value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(sbyte value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(short value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(ushort value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(int value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(uint value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(long value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(ulong value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(decimal value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(float value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }
 
         private static string GetString(double value, string format)
         {
-            return ((JsonDecimal) value).ToString(format != null
+            return ((JsonDecimal) value).ToString(format is not null
                 ? JsonNumberFormat.Parse(format)
                 : JsonNumberFormat.For(value));
         }

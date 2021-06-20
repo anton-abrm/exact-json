@@ -17,7 +17,7 @@ namespace ExactJson.Tests.Unit.Serialization.Converters
         public void GetString(string format, string culture, string value, long ticks)
         {
             var converter = new JsonDateTimeConverter();
-            var formatProvider = culture != null 
+            var formatProvider = culture is not null 
                 ? CultureInfo.GetCultureInfo(culture) 
                 : null;
             
@@ -36,7 +36,7 @@ namespace ExactJson.Tests.Unit.Serialization.Converters
         public void GetValue(string format, string culture, string value, long ticks)
         {
             var converter = new JsonDateTimeConverter();
-            var formatProvider = culture != null 
+            var formatProvider = culture is not null 
                 ? CultureInfo.GetCultureInfo(culture) 
                 : null;
             

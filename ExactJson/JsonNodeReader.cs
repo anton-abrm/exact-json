@@ -188,7 +188,7 @@ namespace ExactJson
                 case JsonObject parentObj:
                 {
                     var nextProperty = parentObj.Next(slot.PropertyName);
-                    if (nextProperty != null) {
+                    if (nextProperty is not null) {
                         _stack.Push(new Slot(nextProperty.Value.Value, true, true, nextProperty.Value.Name, -1));
                     }
 
