@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace ExactJson
 {
-    [Serializable]
     public abstract class JsonException : Exception
     {
         protected JsonException(string message, Exception innerException)

@@ -4,7 +4,6 @@ using System.Security.Permissions;
 
 namespace ExactJson
 {
-    [Serializable]
     public sealed class JsonNodeLoadException : JsonException
     {
         private static string FormatMessage(JsonPointer pointer, JsonException innerException)
@@ -24,20 +23,6 @@ namespace ExactJson
             }
 
             Pointer = pointer.ToString();
-        }
-
-        private JsonNodeLoadException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            Pointer = info.GetString(nameof(Pointer));
-        }
-
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-
-            info.AddValue(nameof(Pointer), Pointer);
         }
 
         public string Pointer { get; }

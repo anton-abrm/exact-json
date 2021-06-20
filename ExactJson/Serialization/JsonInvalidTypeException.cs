@@ -4,7 +4,6 @@ using System.Security.Permissions;
 
 namespace ExactJson.Serialization
 {
-    [Serializable]
     public class JsonInvalidTypeException : JsonException
     {
         public JsonInvalidTypeException(string message = null, Exception innerException = null)
