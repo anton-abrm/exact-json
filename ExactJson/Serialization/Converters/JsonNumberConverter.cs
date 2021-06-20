@@ -5,24 +5,19 @@ namespace ExactJson.Serialization.Converters
 {
     public sealed class JsonNumberConverter : JsonStringConverter
     {
-        private static readonly Dictionary<Type, TypeCode> Map;
-
-        static JsonNumberConverter()
-        {
-            Map = new Dictionary<Type, TypeCode> {
-                [typeof(byte)] = TypeCode.Byte,
-                [typeof(sbyte)] = TypeCode.SByte,
-                [typeof(short)] = TypeCode.Int16,
-                [typeof(ushort)] = TypeCode.UInt16,
-                [typeof(int)] = TypeCode.Int32,
-                [typeof(uint)] = TypeCode.UInt32,
-                [typeof(long)] = TypeCode.Int64,
-                [typeof(ulong)] = TypeCode.UInt64,
-                [typeof(decimal)] = TypeCode.Decimal,
-                [typeof(float)] = TypeCode.Single,
-                [typeof(double)] = TypeCode.Double,
-            };
-        }
+        private static readonly Dictionary<Type, TypeCode> Map = new Dictionary<Type, TypeCode> {
+            [typeof(byte)] = TypeCode.Byte,
+            [typeof(sbyte)] = TypeCode.SByte,
+            [typeof(short)] = TypeCode.Int16,
+            [typeof(ushort)] = TypeCode.UInt16,
+            [typeof(int)] = TypeCode.Int32,
+            [typeof(uint)] = TypeCode.UInt32,
+            [typeof(long)] = TypeCode.Int64,
+            [typeof(ulong)] = TypeCode.UInt64,
+            [typeof(decimal)] = TypeCode.Decimal,
+            [typeof(float)] = TypeCode.Single,
+            [typeof(double)] = TypeCode.Double,
+        };
 
         private static string GetString(byte value, string format)
         {
@@ -148,21 +143,8 @@ namespace ExactJson.Serialization.Converters
         {
             return GetString((IConvertible) value, context.Format);
         }
-
-        public override object GetValue(string s, JsonConverterContext context)
-        {
-            try {
-                return GetNumber(JsonDecimal.Parse(s), context.TargetType);
-            }
-            catch (FormatException) {
-                throw new JsonInvalidValueException();
-            }
-            catch (OverflowException) {
-                throw new JsonInvalidValueException();
-            }
-        }
-
-        private object GetNumber(JsonDecimal value, Type targetType)
+        
+        private static object GetValue(JsonDecimal value, Type targetType)
         {
             Map.TryGetValue(targetType, out var typeCode);
 
@@ -206,6 +188,19 @@ namespace ExactJson.Serialization.Converters
             }
         }
 
+        public override object GetValue(string s, JsonConverterContext context)
+        {
+            try {
+                return GetValue(JsonDecimal.Parse(s), context.TargetType);
+            }
+            catch (FormatException) {
+                throw new JsonInvalidValueException();
+            }
+            catch (OverflowException) {
+                throw new JsonInvalidValueException();
+            }
+        }
+        
         public override object Read(JsonReader input, JsonConverterContext context)
         {
             if (input is null) {
@@ -213,7 +208,7 @@ namespace ExactJson.Serialization.Converters
             }
 
             if (input.TokenType == JsonTokenType.Number) {
-                return GetNumber(input.ReadNumber(out _), context.TargetType);
+                return GetValue(input.ReadNumber(out _), context.TargetType);
             }
 
             return base.Read(input, context);
