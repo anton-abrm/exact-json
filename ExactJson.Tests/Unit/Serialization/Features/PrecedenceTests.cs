@@ -13,18 +13,14 @@ namespace ExactJson.Tests.Unit.Serialization.Features
         {
             private string Format { get; } = string.Empty;
 
-            public override void Write(JsonWriter output, object value, JsonConverterContext context)
+            public override string GetString(object value, JsonConverterContext context)
             {
-                output.WriteString(context.Format ?? Format);
+                return context.Format ?? Format;
             }
 
-            public override object Read(JsonReader input, JsonConverterContext context)
+            public override object GetValue(string s, JsonConverterContext context)
             {
-                if (input.TokenType != JsonTokenType.String) {
-                    throw new JsonInvalidTypeException();
-                }
-
-                if (input.ReadString() != (context.Format ?? Format)) {
+                if (s != (context.Format ?? Format)) {
                     throw new JsonInvalidValueException();
                 }
 

@@ -2,7 +2,7 @@ using System;
 
 namespace ExactJson.Serialization.Converters
 {
-    public sealed class JsonVersionConverter : JsonStringConverter
+    public sealed class JsonVersionConverter : JsonConverter
     {
         public override string GetString(object value, JsonConverterContext context)
         {

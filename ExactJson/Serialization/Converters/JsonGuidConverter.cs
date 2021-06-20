@@ -2,7 +2,7 @@
 
 namespace ExactJson.Serialization.Converters
 {
-    public sealed class JsonGuidConverter : JsonStringConverter
+    public sealed class JsonGuidConverter : JsonConverter
     {
         private const string DefaultFormat = "D";
 

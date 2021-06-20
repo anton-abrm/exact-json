@@ -618,7 +618,7 @@ namespace ExactJson.Tests.Functional
             public List<double> Coordinates { get; set; }
         }
 
-        private sealed class StringCollectionConverter : JsonStringConverter
+        private sealed class StringCollectionConverter : JsonConverter
         {
             public override string GetString(object value, JsonConverterContext context)
             {

@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace ExactJson.Serialization.Converters
 {
-    public sealed class JsonTimeSpanConverter : JsonStringConverter
+    public sealed class JsonTimeSpanConverter : JsonConverter
     {
         private const string DefaultFormat = "hh\\:mm\\:ss";
 

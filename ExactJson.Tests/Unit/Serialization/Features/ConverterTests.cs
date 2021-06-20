@@ -10,14 +10,14 @@ namespace ExactJson.Tests.Unit.Serialization.Features
     {
         private sealed class UriConverter : JsonConverter
         {
-            public override void Write(JsonWriter output, object value, JsonConverterContext context)
+            public override string GetString(object value, JsonConverterContext context)
             {
-                output.WriteString(((Uri) value).ToString());
+               return ((Uri) value).ToString();
             }
 
-            public override object Read(JsonReader input, JsonConverterContext context)
+            public override object GetValue(string s, JsonConverterContext context)
             {
-                return new Uri(input.ReadString());
+                return new Uri(s);
             }
         }
 

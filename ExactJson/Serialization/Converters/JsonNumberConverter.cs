@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ExactJson.Serialization.Converters
 {
-    public sealed class JsonNumberConverter : JsonStringConverter
+    public sealed class JsonNumberConverter : JsonConverter
     {
         private static readonly Dictionary<Type, TypeCode> Map = new Dictionary<Type, TypeCode> {
             [typeof(byte)] = TypeCode.Byte,
@@ -203,19 +203,6 @@ namespace ExactJson.Serialization.Converters
             catch (OverflowException) {
                 throw new JsonValueOutOfRangeException();
             }
-        }
-        
-        public override object Read(JsonReader input, JsonConverterContext context)
-        {
-            if (input is null) {
-                throw new ArgumentNullException(nameof(input));
-            }
-
-            if (input.TokenType == JsonTokenType.Number) {
-                return GetValue(input.ReadNumber(out _), context.TargetType);
-            }
-
-            return base.Read(input, context);
         }
     }
 }

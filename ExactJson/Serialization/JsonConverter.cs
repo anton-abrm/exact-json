@@ -2,7 +2,7 @@
 {
     public abstract class JsonConverter
     {
-        public abstract void Write(JsonWriter output, object value, JsonConverterContext context);
-        public abstract object Read(JsonReader input, JsonConverterContext context);
+        public abstract string GetString(object value, JsonConverterContext context);
+        public abstract object GetValue(string s, JsonConverterContext context);
     }
 }

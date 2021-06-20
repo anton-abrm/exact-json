@@ -158,11 +158,12 @@ namespace ExactJson.Serialization
 
             var converter = ctx.GetConverter();
             if (converter != null) {
-                converter.Write(writer, value, new JsonConverterContext {
+                
+                writer.WriteString(converter.GetString(value, new JsonConverterContext {
                     Format = ctx.GetFormat(),
                     FormatProvider = ctx.GetFormatProvider(this),
                     TargetType = targetType.UnwrappedType,
-                });
+                }));
 
                 return;
             }
@@ -277,7 +278,7 @@ namespace ExactJson.Serialization
             var keyCtx = ctx.Key()
                             .SetType(this, targetType.KeyType);
 
-            var converter = (JsonStringConverter) keyCtx.GetConverter();
+            var converter = keyCtx.GetConverter();
             
             try {
 
@@ -463,7 +464,7 @@ namespace ExactJson.Serialization
         {
             var converter = ctx.GetConverter();
             if (converter != null) {
-                return converter.Read(reader, new JsonConverterContext {
+                return converter.GetValue(reader.ReadString(), new JsonConverterContext {
                     Format = ctx.GetFormat(),
                     FormatProvider = ctx.GetFormatProvider(this),
                     TargetType = targetType.UnwrappedType,
@@ -509,7 +510,7 @@ namespace ExactJson.Serialization
             var keyCtx = ctx.Key()
                             .SetType(this, dictType.KeyType);
 
-            var keyConverter = (JsonStringConverter) keyCtx.GetConverter();
+            var keyConverter = keyCtx.GetConverter();
 
             var keyTypeEnum = dictType.KeyType as MetaTypeEnum;
 

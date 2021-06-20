@@ -2,7 +2,7 @@
 
 namespace ExactJson.Serialization.Converters
 {
-    public sealed class JsonByteArrayConverter : JsonStringConverter
+    public sealed class JsonByteArrayConverter : JsonConverter
     {
         public override string GetString(object value, JsonConverterContext context)
         {
