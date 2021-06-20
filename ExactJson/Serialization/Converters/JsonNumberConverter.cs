@@ -141,6 +141,10 @@ namespace ExactJson.Serialization.Converters
 
         public override string GetString(object value, JsonConverterContext context)
         {
+            if (value is null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             return GetString((IConvertible) value, context.Format);
         }
         
