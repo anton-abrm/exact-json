@@ -18,9 +18,9 @@ namespace ExactJson.Serialization
         bool? IMetaContext.SerializeNullProperty => null;
         
         [ExcludeFromCodeCoverage]
-        IMetaContext IMetaContext.ChildKey => null;
+        IMetaContext IMetaContext.KeyContext => null;
         
         [ExcludeFromCodeCoverage]
-        IMetaContext IMetaContext.ChildItem => null;
+        IMetaContext IMetaContext.ItemContext => null;
     }
 }

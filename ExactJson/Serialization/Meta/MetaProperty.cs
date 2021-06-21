@@ -46,7 +46,7 @@ namespace ExactJson.Serialization.Meta
                         Context = new MetaContext();
                     }
 
-                    Context.ChildContext = childContext;
+                    Context.ItemContext = childContext;
                 }
             }
 
@@ -60,7 +60,7 @@ namespace ExactJson.Serialization.Meta
                         Context = new MetaContext();
                     }
 
-                    Context.ChildKeyContext = keyContext;
+                    Context.KeyContext = keyContext;
                 }
             }
         }

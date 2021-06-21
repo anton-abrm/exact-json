@@ -34,14 +34,14 @@ namespace ExactJson.Serialization.Meta
         public bool? SerializeNullProperty { get; }
         public JsonConverter Converter { get; }
 
-        public MetaContext ChildContext { get; set; }
-        public MetaContext ChildKeyContext { get; set; }
+        public MetaContext ItemContext { get; set; }
+        public MetaContext KeyContext { get; set; }
 
-        IMetaContext IMetaContext.ChildItem
-            => ChildContext;
+        IMetaContext IMetaContext.ItemContext
+            => ItemContext;
         
-        IMetaContext IMetaContext.ChildKey
-            => ChildKeyContext;
+        IMetaContext IMetaContext.KeyContext
+            => KeyContext;
 
         private MetaContext(in Setup setup)
         {

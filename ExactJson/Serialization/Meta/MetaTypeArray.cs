@@ -59,14 +59,13 @@ namespace ExactJson.Serialization.Meta
             AddInvoker = ReflectionUtil.CreateActionMethodInvoker<object, object>(addMethod);
 
             var childContext = MetaContext.TryCreate(ItemType.UnwrappedType, UnwrappedType, JsonNodeTarget.Item);
-
             if (childContext is not null) {
 
                 if (Context is null) {
                     Context = new MetaContext();
                 }
 
-                Context.ChildContext = childContext;
+                Context.ItemContext = childContext;
             }
         }
 

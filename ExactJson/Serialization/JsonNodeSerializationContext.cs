@@ -17,7 +17,7 @@ namespace ExactJson.Serialization
         public JsonKeySerializationContext KeyContext { get; set; }
         public JsonItemSerializationContext ItemContext { get; set; }
         
-        IMetaContext IMetaContext.ChildKey => KeyContext;
-        IMetaContext IMetaContext.ChildItem => ItemContext;
+        IMetaContext IMetaContext.KeyContext => KeyContext;
+        IMetaContext IMetaContext.ItemContext => ItemContext;
     }
 }

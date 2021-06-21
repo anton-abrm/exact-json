@@ -21,8 +21,8 @@ namespace ExactJson.Serialization
 
             protected abstract IMetaContext SelectContext(JsonNodeSerializationContext context);
 
-            public abstract IMetaContext ChildKey { get; }
-            public abstract IMetaContext ChildItem { get; }
+            public abstract IMetaContext KeyContext { get; }
+            public abstract IMetaContext ItemContext { get; }
             
             private T GetValue<T>(Func<IMetaContext, T> valueSelector)
             {
@@ -76,10 +76,10 @@ namespace ExactJson.Serialization
             protected override IMetaContext SelectContext(JsonNodeSerializationContext context)
                 => context;
 
-            public override IMetaContext ChildKey
+            public override IMetaContext KeyContext
                 => _keyCtx ?? (_keyCtx = new KeyContextWrapper(Serializer, Type, NodeContext));
 
-            public override IMetaContext ChildItem
+            public override IMetaContext ItemContext
                 => _itemCtx ?? (_itemCtx = new ItemContextWrapper(Serializer, Type, NodeContext));
 
             public JsonNodeSerializationContext InternalContext
@@ -94,8 +94,8 @@ namespace ExactJson.Serialization
             protected override IMetaContext SelectContext(JsonNodeSerializationContext context)
                 => context.KeyContext;
 
-            public override IMetaContext ChildKey => null;
-            public override IMetaContext ChildItem => null;
+            public override IMetaContext KeyContext => null;
+            public override IMetaContext ItemContext => null;
         }
 
         private sealed class ItemContextWrapper : ContextWrapper
@@ -106,8 +106,8 @@ namespace ExactJson.Serialization
             protected override IMetaContext SelectContext(JsonNodeSerializationContext context)
                 => context.ItemContext;
             
-            public override IMetaContext ChildKey => null;
-            public override IMetaContext ChildItem => null;
+            public override IMetaContext KeyContext => null;
+            public override IMetaContext ItemContext => null;
         }
     }
 }

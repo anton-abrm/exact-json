@@ -12,7 +12,7 @@ namespace ExactJson.Serialization.Meta
         string TypePropertyName { get; }
         bool? SerializeNullProperty { get; }
 
-        IMetaContext ChildKey { get; }
-        IMetaContext ChildItem { get; }
+        IMetaContext KeyContext { get; }
+        IMetaContext ItemContext { get; }
     }
 }

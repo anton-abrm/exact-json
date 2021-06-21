@@ -24,10 +24,10 @@ namespace ExactJson.Serialization
         string IMetaContext.TypePropertyName => null;
         
         [ExcludeFromCodeCoverage] 
-        IMetaContext IMetaContext.ChildKey => null;
+        IMetaContext IMetaContext.KeyContext => null;
         
         [ExcludeFromCodeCoverage] 
-        IMetaContext IMetaContext.ChildItem => null;
+        IMetaContext IMetaContext.ItemContext => null;
     }
 
 }

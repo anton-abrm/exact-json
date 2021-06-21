@@ -65,14 +65,14 @@ namespace ExactJson.Serialization.Meta
             KeyGetter = ReflectionUtil.CreatePropertyGetter<object, object>(kvpType.GetProperty("Key"));
             ValueGetter = ReflectionUtil.CreatePropertyGetter<object, object>(kvpType.GetProperty("Value"));
 
-            var childContext = MetaContext.TryCreate(ValueType.UnwrappedType, UnwrappedType, JsonNodeTarget.Item);
-            if (childContext is not null) {
+            var itemContext = MetaContext.TryCreate(ValueType.UnwrappedType, UnwrappedType, JsonNodeTarget.Item);
+            if (itemContext is not null) {
 
                 if (Context is null) {
                     Context = new MetaContext();
                 }
 
-                Context.ChildContext = childContext;
+                Context.ItemContext = itemContext;
             }
             
             var keyContext = MetaContext.TryCreate(KeyType.UnwrappedType, UnwrappedType, JsonNodeTarget.Key);
@@ -82,7 +82,7 @@ namespace ExactJson.Serialization.Meta
                     Context = new MetaContext();
                 }
 
-                Context.ChildKeyContext = keyContext;
+                Context.KeyContext = keyContext;
             }
         }
 

@@ -18,10 +18,10 @@ namespace ExactJson.Serialization
                 => new Context(ctx);
 
             public Context Item()
-                => new Context(_local?.ChildItem, _attr?.ChildItem, _bound?.ChildItem);
+                => new Context(_local?.ItemContext, _attr?.ItemContext, _bound?.ItemContext);
 
             public Context Key()
-                => new Context(_local?.ChildKey, _attr?.ChildKey, _bound?.ChildKey);
+                => new Context(_local?.KeyContext, _attr?.KeyContext, _bound?.KeyContext);
 
             public Context SetType(JsonSerializer serializer, MetaType meta)
             {
