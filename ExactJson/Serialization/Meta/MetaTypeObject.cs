@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Reflection;
 
-using ExactJson.Infra;
-
 namespace ExactJson.Serialization.Meta
 {
     internal sealed class MetaTypeObject : MetaType
@@ -27,7 +25,7 @@ namespace ExactJson.Serialization.Meta
                                 where attr is not null
                                 orderby attr.Position
                                 let meta = FromType(prop.PropertyType)
-                                select new MetaProperty(meta, prop, attr));
+                                select new MetaProperty(meta, prop, attr, this));
         }
     }
 }

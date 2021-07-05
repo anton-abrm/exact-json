@@ -95,10 +95,17 @@ namespace ExactJson.Serialization
             return null;
         }
 
-        private static void CheckConstructor(MetaType type)
+        private static void CheckType(MetaType type)
         {
             if (type.Constructor is null) {
                 throw new JsonInvalidTypeException($"Constructor on type '{type.UnwrappedType}' not found.");
+            }
+        }
+        
+        private static void CheckProperty(MetaProperty property)
+        {
+            if (property.Getter is null) {
+                throw new JsonInvalidTypeException($"Type '{property.ParentType.UnwrappedType}' has property '{property.Name}' with no getter.");
             }
         }
 
@@ -202,7 +209,7 @@ namespace ExactJson.Serialization
 
         private void SerializeObject(JsonWriter writer, MetaTypeObject targetType, MetaTypeObject valueType, object value, Context ctx, Stack<PointerSection> stack)
         {
-            CheckConstructor(valueType);
+            CheckType(valueType);
             
             if (ctx.IsTuple(this)) {
 
@@ -214,6 +221,8 @@ namespace ExactJson.Serialization
 
                     var property = valueType.Properties[index];
 
+                    CheckProperty(property);
+                    
                     var childValue = property.Getter(value);
 
                     var childCtx = Context.Local(property.Context)
@@ -234,6 +243,8 @@ namespace ExactJson.Serialization
 
                 foreach (var property in valueType.Properties) {
 
+                    CheckProperty(property);
+                    
                     var childValue = property.Getter(value);
 
                     var childCtx = Context.Local(property.Context)
@@ -267,7 +278,7 @@ namespace ExactJson.Serialization
 
         private void SerializeDictionary(JsonWriter writer, MetaTypeDictionary targetType, IEnumerable value, Context ctx, Stack<PointerSection> stack)
         {
-            CheckConstructor(targetType);
+            CheckType(targetType);
             
             writer.WriteStartObject();
 
@@ -329,7 +340,7 @@ namespace ExactJson.Serialization
 
         private void SerializeArray(JsonWriter writer, MetaTypeArray type, IEnumerable value, Context ctx, Stack<PointerSection> stack)
         {
-            CheckConstructor(type);
+            CheckType(type);
             
             writer.WriteStartArray();
 
@@ -510,7 +521,7 @@ namespace ExactJson.Serialization
 
         private object DeserializeDictionary(JsonReader reader, MetaTypeDictionary dictType, Context ctx, Stack<PointerSection> stack)
         {
-            CheckConstructor(dictType);
+            CheckType(dictType);
             
             var result = dictType.Constructor();
 
@@ -623,7 +634,7 @@ namespace ExactJson.Serialization
                 reader.ReadStartObject();
             }
 
-            CheckConstructor(meta);
+            CheckType(meta);
 
             var result = meta.Constructor();
 
@@ -656,6 +667,9 @@ namespace ExactJson.Serialization
                 }
                 
                 var property = meta.Properties.Find(name);
+                if (property is not null) {
+                    CheckProperty(property);
+                }
                 
                 stack.Push(new PointerSection(name));
                 
@@ -676,6 +690,8 @@ namespace ExactJson.Serialization
 
             foreach (var property in meta.Properties) {
 
+                CheckProperty(property);
+                
                 if (property.Setter is null) {
                     continue;
                 }
@@ -707,7 +723,7 @@ namespace ExactJson.Serialization
 
                 case MetaTypeArray metaArray:
                 {
-                    CheckConstructor(metaArray);
+                    CheckType(metaArray);
 
                     var result = metaArray.Constructor();
 
@@ -740,7 +756,7 @@ namespace ExactJson.Serialization
                         }
                     }
 
-                    CheckConstructor(meta);
+                    CheckType(meta);
 
                     var result = meta.Constructor();
 
@@ -750,6 +766,8 @@ namespace ExactJson.Serialization
 
                         var property = meta.Properties[index];
                         
+                        CheckProperty(property);
+
                         stack.Push(new PointerSection(index));
 
                         if (property.Setter is null) {

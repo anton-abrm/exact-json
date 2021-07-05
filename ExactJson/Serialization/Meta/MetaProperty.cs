@@ -10,26 +10,27 @@ namespace ExactJson.Serialization.Meta
     {
         public string Name { get; }
         public MetaType Type { get; }
+        public MetaType ParentType { get; }
         
         public Func<object, object> Getter { get; }
         public Func<object, object, object> Setter { get; }
 
         public MetaContext Context { get;}
         
-        public MetaProperty(MetaType type, PropertyInfo propertyInfo, JsonNodeAttribute attribute)
+        public MetaProperty(MetaType type, PropertyInfo propertyInfo, JsonNodeAttribute attribute, MetaType parentType)
         {
             Debug.Assert(type is not null);
             Debug.Assert(propertyInfo is not null);
             Debug.Assert(attribute is not null);
-            
+            Debug.Assert(parentType is not null);
+
+            ParentType = parentType;
             Type = type;
             Name = attribute.Name ?? propertyInfo.Name;
 
-            if (!propertyInfo.CanRead) {
-                throw new InvalidOperationException($"Property '{propertyInfo.Name}' of type '{type}' has no getter.");
+            if (propertyInfo.CanRead) {
+                Getter = ReflectionUtil.CreatePropertyGetter<object, object>(propertyInfo);
             }
-            
-            Getter = ReflectionUtil.CreatePropertyGetter<object, object>(propertyInfo);
             
             if (propertyInfo.CanWrite) {
                 Setter = ReflectionUtil.CreatePropertySetter<object, object>(propertyInfo);
