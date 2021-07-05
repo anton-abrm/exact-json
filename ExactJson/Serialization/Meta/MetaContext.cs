@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -59,14 +60,9 @@ namespace ExactJson.Serialization.Meta
         
         public static MetaContext TryCreate(Type unwrappedType, MemberInfo memberInfo, JsonNodeTarget target)
         {
-            if (unwrappedType is null) {
-                throw new ArgumentNullException(nameof(unwrappedType));
-            }
-
-            if (memberInfo is null) {
-                throw new ArgumentNullException(nameof(memberInfo));
-            }
-
+            Debug.Assert(unwrappedType is not null);
+            Debug.Assert(memberInfo is not null);
+        
             var setup = new Setup();
 
             setup.IsTuple = memberInfo
