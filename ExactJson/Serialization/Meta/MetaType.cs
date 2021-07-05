@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 
 using ExactJson.Infra;
 
@@ -9,10 +10,8 @@ namespace ExactJson.Serialization.Meta
     {
         protected MetaType(Type type)
         {
-            if (type is null) {
-                throw new ArgumentNullException(nameof(type));
-            }
-
+            Debug.Assert(type is not null);
+            
             IsNullable = ReflectionUtil.IsNullable(type);
             IsNullAssignable = ReflectionUtil.IsNullAssignable(type);
             UnwrappedType = ReflectionUtil.UnwrapNullable(type);
@@ -61,10 +60,8 @@ namespace ExactJson.Serialization.Meta
 
         public static MetaType FromType(Type type)
         {
-            if (type is null) {
-                throw new ArgumentNullException(nameof(type));
-            }
-
+            Debug.Assert(type is not null);
+            
             return MetaTypePrimitive.TryGetPrimitive(type) 
                 ?? Cache.GetOrAdd(type, CreateMeta);
         }
