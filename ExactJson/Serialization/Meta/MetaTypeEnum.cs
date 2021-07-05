@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using ExactJson.Infra;
@@ -18,12 +19,12 @@ namespace ExactJson.Serialization.Meta
 
         public MetaTypeEnum(Type type) : base(type)
         {
+            Debug.Assert(type is not null);
+            
             type = ReflectionUtil.UnwrapNullable(type);
             
-            if (!type.IsEnum) {
-                throw new ArgumentException($"Type {type} is not enum.", nameof(type));
-            }
-
+            Debug.Assert(type.IsEnum);
+            
             foreach (var field in type.GetFields()) {
 
                 if (!field.IsStatic) {
@@ -58,26 +59,16 @@ namespace ExactJson.Serialization.Meta
 
         public object TryGetValue(Type type, string name)
         {
-            if (type is null) {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            if (name is null) {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (_itemsBackward.TryGetValue(name, out var value)) {
-                return value;
-            }
-
-            return null;
+            Debug.Assert(type is not null);
+            Debug.Assert(name is not null);
+            
+            _itemsBackward.TryGetValue(name, out var value);
+            return value;
         }
 
         public static bool IsEnum(Type type)
         {
-            if (type is null) {
-                throw new ArgumentNullException(nameof(type));
-            }
+            Debug.Assert(type is not null);
             
             return ReflectionUtil.UnwrapNullable(type).IsEnum;
         }
