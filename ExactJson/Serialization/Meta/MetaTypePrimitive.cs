@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ExactJson.Serialization.Meta
 {
@@ -10,10 +11,8 @@ namespace ExactJson.Serialization.Meta
 
         public static MetaTypePrimitive TryGetPrimitive(Type type)
         {
-            if (type is null) {
-                throw new ArgumentNullException(nameof(type));
-            }
-
+            Debug.Assert(type is not null);
+            
             Primitives.TryGetValue(type, out var result);
 
             return result;
