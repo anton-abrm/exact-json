@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using ExactJson.Infra;
@@ -11,14 +12,12 @@ namespace ExactJson.Serialization.Meta
     {
         public static bool IsDictionary(Type type)
         {
-            if (type is null) {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            return GetDictionaryType(type) is not null;
+            Debug.Assert(type is not null);
+            
+            return TryGetDictionaryType(type) is not null;
         }
 
-        private static Type GetDictionaryType(Type type)
+        private static Type TryGetDictionaryType(Type type)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)) {
                 return type;
@@ -32,7 +31,6 @@ namespace ExactJson.Serialization.Meta
         public MetaType KeyType { get; }
         public MetaType ValueType { get; }
         
-        public Action<object> ClearInvoker { get; }
         public Action<object, object, object> AddInvoker { get; }
 
         public Func<object, object> KeyGetter { get; }
@@ -42,10 +40,11 @@ namespace ExactJson.Serialization.Meta
 
         public MetaTypeDictionary(Type type) : base(type)
         {
-            var dictionaryType = GetDictionaryType(type);
-            if (dictionaryType is null) {
-                throw new ArgumentException($"Type {type} is not dictionary.", nameof(type));
-            }
+            Debug.Assert(type is not null);
+            
+            var dictionaryType = TryGetDictionaryType(type);
+            
+            Debug.Assert(dictionaryType is not null);
 
             var keyType = dictionaryType.GetGenericArguments()[0];
             var valueType = dictionaryType.GetGenericArguments()[1];
