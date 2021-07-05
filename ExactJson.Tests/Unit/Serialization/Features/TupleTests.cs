@@ -8,6 +8,16 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 {
     public class TupleTests
     {
+        [JsonTuple]
+        private sealed class PersonWithTupleAttribute
+        {
+            [JsonNode]
+            public int ID { get; set; }
+
+            [JsonNode]
+            public string Name { get; set; }
+        }
+        
         private sealed class Person
         {
             [JsonNode]
@@ -45,7 +55,7 @@ namespace ExactJson.Tests.Unit.Serialization.Features
         }
         
         [Test]
-        public void Serialize_Tuple_CustomOrder()
+        public void Serialize_TupleContext_CustomOrder()
         {
             var original = "['John',1]".Replace('\'', '\"');
 
@@ -95,6 +105,20 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             var persons = serializer.Deserialize<List<Person>>(original, ctx);
             
             var actual = serializer.Serialize<List<Person>>(persons, ctx);
+
+            Assert.That(actual, Is.EqualTo(original));
+        }
+        
+        [Test]
+        public void Serialize_TupleAttribute()
+        {
+            var original = "[1,'John']".Replace('\'', '\"');
+
+            var serializer = new JsonSerializer();
+
+            var person = serializer.Deserialize<PersonWithTupleAttribute>(original);
+            
+            var actual = serializer.Serialize<PersonWithTupleAttribute>(person);
 
             Assert.That(actual, Is.EqualTo(original));
         }
