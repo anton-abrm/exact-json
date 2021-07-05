@@ -31,15 +31,15 @@ namespace ExactJson.Serialization.Meta
                     continue;
                 }
 
-                var attr = field.GetCustomAttributes(false)
+                var attribute = field.GetCustomAttributes(false)
                                 .OfType<JsonEnumValueAttribute>()
                                 .FirstOrDefault();
 
-                if (attr is null) {
+                if (attribute is null) {
                     continue;
                 }
 
-                var name = attr.Name ?? field.Name;
+                var name = attribute.Name ?? field.Name;
 
                 var value = (Enum) field.GetValue(null);
 
