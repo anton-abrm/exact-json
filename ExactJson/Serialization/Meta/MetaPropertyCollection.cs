@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace ExactJson.Serialization.Meta
 {
@@ -8,37 +8,15 @@ namespace ExactJson.Serialization.Meta
     {
         protected override string GetKeyForItem(MetaProperty item)
         {
-            if (item is null) {
-                throw new ArgumentNullException(nameof(item));
-            }
-
+            Debug.Assert(item is not null);
+            
             return item.Name;
-        }
-
-        protected override void InsertItem(int index, MetaProperty item)
-        {
-            if (item is null) {
-                throw new ArgumentNullException(nameof(item));
-            }
-
-            base.InsertItem(index, item);
-        }
-
-        protected override void SetItem(int index, MetaProperty item)
-        {
-            if (item is null) {
-                throw new ArgumentNullException(nameof(item));
-            }
-
-            base.SetItem(index, item);
         }
 
         public MetaProperty Find(string name)
         {
-            if (name is null) {
-                throw new ArgumentNullException(nameof(name));
-            }
-
+            Debug.Assert(name is not null);
+            
             if (Dictionary is not null && Dictionary.TryGetValue(name, out var value)) {
                 return value;
             }
@@ -48,10 +26,8 @@ namespace ExactJson.Serialization.Meta
 
         public void AddRange(IEnumerable<MetaProperty> items)
         {
-            if (items is null) {
-                throw new ArgumentNullException(nameof(items));
-            }
-
+            Debug.Assert(items is not null);
+            
             foreach (var item in items) {
                 Add(item);
             }
