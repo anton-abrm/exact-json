@@ -298,10 +298,14 @@ namespace ExactJson.Serialization
                         });
                     }
                     else if (keyTypeEnum is not null) {
-                        name = keyTypeEnum.GetName((Enum) key);
+                        name = keyTypeEnum.TryGetName((Enum) key);
                     }
                     else {
                         name = (string) key;
+                    }
+
+                    if (name is null) {
+                        throw new JsonInvalidValueException();
                     }
                     
                     var childValue = targetType.ValueGetter(kvp);
@@ -348,7 +352,12 @@ namespace ExactJson.Serialization
 
         private static void SerializeEnum(JsonWriter writer, MetaTypeEnum type, Enum value)
         {
-            writer.WriteString(type.GetName(value));
+            var name = type.TryGetName(value);
+            if (name is null) {
+                throw new JsonInvalidValueException();
+            }
+            
+            writer.WriteString(name);
         }
 
         private static void SerializePrimitive(JsonWriter writer, MetaTypePrimitive type, object value, Context ctx)

@@ -48,13 +48,10 @@ namespace ExactJson.Serialization.Meta
             }
         }
 
-        public string GetName(Enum value)
+        public string TryGetName(Enum value)
         {
-            if (_itemsForward.TryGetValue(value, out string name)) {
-                return name;
-            }
-
-            throw new InvalidOperationException($"Attribute for {value} not found.");
+            _itemsForward.TryGetValue(value, out string name);
+            return name;
         }
 
         public object TryGetValue(Type type, string name)
