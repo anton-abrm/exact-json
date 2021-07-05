@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using ExactJson.Infra;
@@ -10,14 +11,12 @@ namespace ExactJson.Serialization.Meta
     {
         public static bool IsArray(Type type)
         {
-            if (type is null) {
-                throw new ArgumentNullException(nameof(type));
-            }
+            Debug.Assert(type is not null);
 
-            return GetCollectionType(type) is not null;
+            return TryGetCollectionType(type) is not null;
         }
         
-        private static Type GetCollectionType(Type type)
+        private static Type TryGetCollectionType(Type type)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ICollection<>)) {
                 return type;
@@ -34,14 +33,15 @@ namespace ExactJson.Serialization.Meta
         public MetaType ItemType { get; }
         public Action<object, object> AddInvoker { get; }
 
-        public MetaTypeArray(Type type)
+        public MetaTypeArray(Type type) 
             : base(type)
         {
-            var collectionType = GetCollectionType(type);
-            if (collectionType is null) {
-                throw new ArgumentException($"Type {type} is not array.", nameof(type));
-            }
+            Debug.Assert(type is not null);
+            
+            var collectionType = TryGetCollectionType(type);
 
+            Debug.Assert(collectionType is not null);
+            
             var itemType = collectionType.GetGenericArguments()[0];
 
             ItemType = FromType(itemType);
