@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Reflection;
 
 using ExactJson.Infra;
@@ -17,10 +18,10 @@ namespace ExactJson.Serialization.Meta
         
         public MetaProperty(MetaType type, PropertyInfo propertyInfo, JsonNodeAttribute attribute)
         {
-            if (attribute is null) {
-                throw new ArgumentNullException(nameof(attribute));
-            }
-
+            Debug.Assert(type is not null);
+            Debug.Assert(propertyInfo is not null);
+            Debug.Assert(attribute is not null);
+            
             Type = type;
             Name = attribute.Name ?? propertyInfo.Name;
 
