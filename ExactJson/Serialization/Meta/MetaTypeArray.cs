@@ -46,17 +46,8 @@ namespace ExactJson.Serialization.Meta
 
             ItemType = FromType(itemType);
 
-            var clearMethod = collectionType.GetMethod("Clear", Type.EmptyTypes);
-            if (clearMethod is null) {
-                throw new InvalidOperationException($"Clear method not found in type {type}");
-            }
-
-            var addMethod = collectionType.GetMethod("Add", new[] { itemType });
-            if (addMethod is null) {
-                throw new InvalidOperationException($"Add method not found in type {type}.");
-            }
-            
-            AddInvoker = ReflectionUtil.CreateActionMethodInvoker<object, object>(addMethod);
+            AddInvoker = ReflectionUtil.CreateActionMethodInvoker<object, object>(
+                collectionType.GetMethod("Add", new[] { itemType }));
 
             var childContext = MetaContext.TryCreate(ItemType.UnwrappedType, UnwrappedType, JsonNodeTarget.Item);
             if (childContext is not null) {
