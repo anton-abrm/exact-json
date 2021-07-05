@@ -12,11 +12,11 @@ namespace ExactJson.Serialization
 {
     public sealed partial class JsonSerializer
     {
-        private readonly Dictionary<string, MetaTypeObject> _typeAliases
-            = new Dictionary<string, MetaTypeObject>();
+        private readonly Dictionary<string, Type> _typeAliases
+            = new Dictionary<string, Type>();
 
-        private readonly Dictionary<MetaTypeObject, string> _typeAliasesReverse
-            = new Dictionary<MetaTypeObject, string>();
+        private readonly Dictionary<Type, string> _typeAliasesReverse
+            = new Dictionary<Type, string>();
 
         private readonly HashSet<Type> _baseTypes = new HashSet<Type>();
         private readonly Dictionary<Type, NodeContextWrapper> _contexts = new Dictionary<Type, NodeContextWrapper>();
@@ -61,8 +61,8 @@ namespace ExactJson.Serialization
             _baseTypes.UnionWith(meta.UnwrappedType.GetInterfaces());
             _baseTypes.UnionWith(meta.UnwrappedType.GetBaseTypes());
 
-            _typeAliases[alias] = meta;
-            _typeAliasesReverse[meta] = alias;
+            _typeAliases[alias] = meta.UnwrappedType;
+            _typeAliasesReverse[meta.UnwrappedType] = alias;
         }
 
         public void SetContext(Type type, JsonNodeSerializationContext context)
@@ -178,7 +178,7 @@ namespace ExactJson.Serialization
             var valueType = MetaType.FromType(value.GetType());
 
             if (targetType.MetaCode != valueType.MetaCode || 
-                targetType.MetaCode != MetaTypeCode.Object && valueType != targetType) {
+                targetType.MetaCode != MetaTypeCode.Object && valueType.UnwrappedType != targetType.UnwrappedType) {
                 throw new JsonInvalidTypeException(
                     $"Unable to serialize '{valueType.UnwrappedType}' as '{targetType.UnwrappedType}'.");
             }
@@ -264,7 +264,7 @@ namespace ExactJson.Serialization
                     return;
                 }
 
-                if (!_typeAliasesReverse.TryGetValue(valueType, out var alias)) {
+                if (!_typeAliasesReverse.TryGetValue(valueType.UnwrappedType, out var alias)) {
                     throw new JsonInvalidTypeException($"Type {valueType.UnwrappedType} must have alias.");
                 }
 
@@ -627,7 +627,7 @@ namespace ExactJson.Serialization
                         throw new JsonInvalidTypeException();
                     }
 
-                    meta = type;
+                    meta = (MetaTypeObject) MetaType.FromType(type);
                 }
             }
             else {
@@ -658,7 +658,7 @@ namespace ExactJson.Serialization
                             continue;
                         }
 
-                        if (meta == type) {
+                        if (meta.UnwrappedType == type) {
                             continue;
                         }
                     }
@@ -751,7 +751,7 @@ namespace ExactJson.Serialization
 
                     if (reader.TokenType == JsonTokenType.String) {
                         if (_typeAliases.TryGetValue(reader.ValueAsString, out var type)) {
-                            meta = type;
+                            meta = (MetaTypeObject) MetaType.FromType(type);
                             reader.Read();
                         }
                     }

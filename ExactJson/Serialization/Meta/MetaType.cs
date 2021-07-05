@@ -6,7 +6,7 @@ using ExactJson.Infra;
 
 namespace ExactJson.Serialization.Meta
 {
-    internal abstract class MetaType: IEquatable<MetaType>
+    internal abstract class MetaType
     {
         protected MetaType(Type type)
         {
@@ -65,30 +65,5 @@ namespace ExactJson.Serialization.Meta
             return MetaTypePrimitive.TryGetPrimitive(type) 
                 ?? Cache.GetOrAdd(type, CreateMeta);
         }
-
-        public override bool Equals(object obj)
-            => Equals(obj as MetaType);
-
-        public bool Equals(MetaType other)
-        {
-            if (ReferenceEquals(null, other)) {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other)) {
-                return true;
-            }
-
-            return UnwrappedType == other.UnwrappedType;
-        }
-        
-        public override int GetHashCode()
-            => UnwrappedType.GetHashCode();
-
-        public static bool operator ==(MetaType left, MetaType right)
-            => Equals(left, right);
-
-        public static bool operator !=(MetaType left, MetaType right)
-            => !Equals(left, right);
     }
 }
