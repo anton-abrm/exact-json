@@ -633,16 +633,21 @@ namespace ExactJson.Tests.Functional
             }
         }
 
-        [TestCase(typeof(EarthquakesFeatureCollection), typeof(JsonStringReader))]
-        [TestCase(typeof(EarthquakesFeatureCollection), typeof(JsonStreamReader))]
-        [TestCase(typeof(EarthquakesFeatureCollection), typeof(JsonTextReader))]
-        [TestCase(typeof(EarthquakesFeatureCollection), typeof(JsonNodeReader))]
-        public void DeserializeAndSerialize_Earthquakes(Type type, Type readerType)
+        [TestCase(typeof(JsonStringReader), "Earthquakes.min.json", false)]
+        [TestCase(typeof(JsonStreamReader), "Earthquakes.min.json", false)]
+        [TestCase(typeof(JsonTextReader), "Earthquakes.min.json", false)]
+        [TestCase(typeof(JsonNodeReader), "Earthquakes.min.json", false)]
+        [TestCase(typeof(JsonStringReader), "Earthquakes.tuple.min.json", true)]
+        [TestCase(typeof(JsonStreamReader), "Earthquakes.tuple.min.json", true)]
+        [TestCase(typeof(JsonTextReader), "Earthquakes.tuple.min.json", true)]
+        [TestCase(typeof(JsonNodeReader), "Earthquakes.tuple.min.json", true)]
+        public void DeserializeAndSerialize_Earthquakes(Type readerType, string fileName, bool isTuple)
         {
-            var json = JsonSamples.GetJsonAsString("Earthquakes.min.json");
+            var json = JsonSamples.GetJsonAsString(fileName);
 
             var serializer = new JsonSerializer {
-                SerializeNullProperty = true
+                SerializeNullProperty = true,
+                IsNodeTuple = isTuple
             };
 
             serializer.SetContext<double>(new JsonNodeSerializationContext {
@@ -655,14 +660,11 @@ namespace ExactJson.Tests.Functional
 
             using var jr = CreateReader(json, readerType);
 
-            var obj = serializer.Deserialize(type, jr);
+            var obj = serializer.Deserialize<EarthquakesFeatureCollection>(jr);
 
-            using var sw = new StringWriter();
-            using var jw = new JsonTextWriter(sw);
+            var result = serializer.Serialize<EarthquakesFeatureCollection>(obj);
 
-            serializer.Serialize(type, jw, obj);
-
-            Assert.That(sw.ToString(), Is.EqualTo(json.Replace("\r", "")));
+            Assert.That(result, Is.EqualTo(json.Replace("\r", "")));
         }
 
         #endregion
