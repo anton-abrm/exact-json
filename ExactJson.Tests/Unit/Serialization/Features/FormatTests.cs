@@ -34,6 +34,14 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             [JsonCulture("de-DE", ApplyTo = JsonNodeTarget.Item)]
             public Dictionary<string, DateTime> Foo { get; set; }
         }
+        
+        private sealed class ClassWithFormattedItem
+        {
+            [JsonNode("foo")]
+            [JsonFormat("D",ApplyTo = JsonNodeTarget.Item)]
+            [JsonCulture("de-DE", ApplyTo = JsonNodeTarget.Item)]
+            public List<DateTime> Foo { get; set; }
+        }
 
         private static JsonSerializer CreateSerializer()
         {
@@ -362,6 +370,32 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             Assert.That(result.Foo, Is.Not.Null);
             Assert.That(result.Foo.Count, Is.EqualTo(1));
             Assert.That(result.Foo["1"], Is.EqualTo(new DateTime(2020, 1, 1)));
+        }
+        
+        [Test]
+        public void Serialize_ClassWithFormattedItem()
+        {
+            var o = new ClassWithFormattedItem() {
+                Foo = new List<DateTime>() {
+                    new DateTime(2020, 1, 1),
+                }
+            };
+            
+            var result = CreateSerializer().Serialize<ClassWithFormattedItem>(o);
+
+            Assert.That(result, Is.EqualTo("{\"foo\":[\"Mittwoch, 1. Januar 2020\"]}"));
+        }
+        
+        [Test]
+        public void Deserialize_ClassWithFormattedItem()
+        {
+            var result = CreateSerializer().Deserialize<ClassWithFormattedItem>(
+                "{\"foo\":[\"Mittwoch, 1. Januar 2020\"]}");
+            
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Foo, Is.Not.Null);
+            Assert.That(result.Foo.Count, Is.EqualTo(1));
+            Assert.That(result.Foo[0], Is.EqualTo(new DateTime(2020, 1, 1)));
         }
     }
 }
