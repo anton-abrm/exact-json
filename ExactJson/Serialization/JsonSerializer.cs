@@ -785,7 +785,9 @@ namespace ExactJson.Serialization
                             reader.Skip();
                         }
                         else {
-                            var itemCtx = ctx.Item().SetType(this, property.Type);
+                            var itemCtx = Context.Local(property.Context)
+                                                 .SetType(this, property.Type);
+                            
                             result = property.Setter(result, DeserializeAnyChecked(reader, property.Type, itemCtx, stack));
                         }
 

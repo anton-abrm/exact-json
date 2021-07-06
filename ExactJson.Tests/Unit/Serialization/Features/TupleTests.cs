@@ -8,6 +8,13 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 {
     public class TupleTests
     {
+        private sealed class PersonWithOptionalName
+        {
+            [JsonNode]
+            [JsonOptional]
+            public string Name { get; set; }
+        }
+        
         [JsonTuple]
         private sealed class PersonWithTupleAttribute
         {
@@ -119,6 +126,23 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             var person = serializer.Deserialize<PersonWithTupleAttribute>(original);
             
             var actual = serializer.Serialize<PersonWithTupleAttribute>(person);
+
+            Assert.That(actual, Is.EqualTo(original));
+        }
+        
+        [Test]
+        public void Serialize_OptionalField()
+        {
+            var original = "[null]";
+
+            var serializer = new JsonSerializer() {
+                IsNodeTuple = true,
+                SerializeNullProperty = true
+            };
+
+            var person = serializer.Deserialize<PersonWithOptionalName>(original);
+            
+            var actual = serializer.Serialize<PersonWithOptionalName>(person);
 
             Assert.That(actual, Is.EqualTo(original));
         }
