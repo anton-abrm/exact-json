@@ -130,30 +130,32 @@ namespace ExactJson.Tests.Functional
             [JsonFormat(".0", ApplyTo = JsonNodeTarget.Item)]
             public List<double> Coordinates { get; set; }
         }
-
-
-        [TestCase(typeof(List<MeteoriteLanding>), typeof(JsonStringReader))]
-        [TestCase(typeof(List<MeteoriteLanding>), typeof(JsonStreamReader))]
-        [TestCase(typeof(List<MeteoriteLanding>), typeof(JsonTextReader))]
-        [TestCase(typeof(List<MeteoriteLanding>), typeof(JsonNodeReader))]
-        public void DeserializeAndSerialize_Meteorite(Type type, Type readerType)
+        
+        [TestCase(typeof(JsonStringReader), "Earth_Meteorite_Landings.min.json", false)]
+        [TestCase(typeof(JsonStreamReader), "Earth_Meteorite_Landings.min.json", false)]
+        [TestCase(typeof(JsonTextReader), "Earth_Meteorite_Landings.min.json", false)]
+        [TestCase(typeof(JsonNodeReader), "Earth_Meteorite_Landings.min.json", false)]
+        [TestCase(typeof(JsonStringReader), "Earth_Meteorite_Landings.tuple.min.json", true)]
+        [TestCase(typeof(JsonStreamReader), "Earth_Meteorite_Landings.tuple.min.json", true)]
+        [TestCase(typeof(JsonTextReader), "Earth_Meteorite_Landings.tuple.min.json", true)]
+        [TestCase(typeof(JsonNodeReader), "Earth_Meteorite_Landings.tuple.min.json", true)]
+        public void DeserializeAndSerialize_Meteorite(Type readerType, string fileName, bool isTuple)
         {
-            var json = JsonSamples.GetJsonAsString("Earth_Meteorite_Landings.min.json");
+            var json = JsonSamples.GetJsonAsString(fileName);
 
-            var serializer = new JsonSerializer();
-
+            var serializer = new JsonSerializer {
+                IsNodeTuple = isTuple
+            };
+            
             serializer.RegisterType<MeteoriteLandingPointGeolocation>("Point");
 
             using var jr = CreateReader(json, readerType);
 
-            var obj = serializer.Deserialize(type, jr);
+            var obj = serializer.Deserialize<List<MeteoriteLanding>>(jr);
+            
+            var resultJson = serializer.Serialize<List<MeteoriteLanding>>(obj);
 
-            using var sw = new StringWriter();
-            using var jw = new JsonTextWriter(sw);
-
-            serializer.Serialize(type, jw, obj);
-
-            Assert.That(sw.ToString(), Is.EqualTo(json.Replace("\r", "")));
+            Assert.That(resultJson, Is.EqualTo(json.Replace("\r", "")));
         }
 
         #endregion

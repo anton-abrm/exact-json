@@ -18,6 +18,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Data\Earth_Meteorite_Landings.json" />
     <EmbeddedResource Include="Data\Earth_Meteorite_Landings.min.json" />
+    <EmbeddedResource Include="Data\Earth_Meteorite_Landings.tuple.min.json" />
     <EmbeddedResource Include="Data\Earthquakes.json" />
     <EmbeddedResource Include="Data\Earthquakes.min.json" />
     <EmbeddedResource Include="Data\Exchange_Rate_USD.json" />
