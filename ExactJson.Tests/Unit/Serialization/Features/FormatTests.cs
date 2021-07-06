@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 using ExactJson.Serialization;
@@ -42,6 +43,21 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             [JsonCulture("de-DE", ApplyTo = JsonNodeTarget.Item)]
             public List<DateTime> Foo { get; set; }
         }
+        
+        [JsonFormat("D",ApplyTo = JsonNodeTarget.Item)]
+        [JsonCulture("de-DE", ApplyTo = JsonNodeTarget.Item)]
+        private sealed class FormattedItemCollection : Collection<DateTime>
+        { }
+        
+        [JsonFormat("D",ApplyTo = JsonNodeTarget.Item)]
+        [JsonCulture("de-DE", ApplyTo = JsonNodeTarget.Item)]
+        private sealed class FormattedItemDictionary : Dictionary<string, DateTime>
+        { }
+        
+        [JsonFormat("D",ApplyTo = JsonNodeTarget.Key)]
+        [JsonCulture("de-DE", ApplyTo = JsonNodeTarget.Key)]
+        private sealed class FormattedKeyDictionary : Dictionary<DateTime, string>
+        { }
 
         private static JsonSerializer CreateSerializer()
         {
@@ -396,6 +412,74 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             Assert.That(result.Foo, Is.Not.Null);
             Assert.That(result.Foo.Count, Is.EqualTo(1));
             Assert.That(result.Foo[0], Is.EqualTo(new DateTime(2020, 1, 1)));
+        }
+        
+        [Test]
+        public void Serialize_FormattedItemCollection()
+        {
+            var o = new FormattedItemCollection() {
+                new DateTime(2020, 1, 1),
+            };
+            
+            var result = CreateSerializer().Serialize<FormattedItemCollection>(o);
+
+            Assert.That(result, Is.EqualTo("[\"Mittwoch, 1. Januar 2020\"]"));
+        }
+        
+        [Test]
+        public void Deserialize_FormattedItemCollection()
+        {
+            var result = CreateSerializer().Deserialize<FormattedItemCollection>(
+                "[\"Mittwoch, 1. Januar 2020\"]");
+            
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result[0], Is.EqualTo(new DateTime(2020, 1, 1)));
+        }
+        
+        [Test]
+        public void Serialize_FormattedItemDictionary()
+        {
+            var o = new FormattedItemDictionary {
+                ["1"] = new DateTime(2020, 1, 1),
+            };
+            
+            var result = CreateSerializer().Serialize<FormattedItemDictionary>(o);
+
+            Assert.That(result, Is.EqualTo("{\"1\":\"Mittwoch, 1. Januar 2020\"}"));
+        }
+        
+        [Test]
+        public void Deserialize_FormattedItemDictionary()
+        {
+            var result = CreateSerializer().Deserialize<FormattedItemDictionary>(
+                "{\"1\":\"Mittwoch, 1. Januar 2020\"}");
+            
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result["1"], Is.EqualTo(new DateTime(2020, 1, 1)));
+        }
+        
+        [Test]
+        public void Serialize_FormattedKeyDictionary()
+        {
+            var o = new FormattedKeyDictionary() {
+                [new DateTime(2020, 1, 1)] = "1",
+            };
+
+            var result = CreateSerializer().Serialize<FormattedKeyDictionary>(o);
+
+            Assert.That(result, Is.EqualTo("{\"Mittwoch, 1. Januar 2020\":\"1\"}"));
+        }
+        
+        [Test]
+        public void Deserialize_FormattedKeyDictionary()
+        {
+            var serializer = CreateSerializer();
+            
+            var result = serializer.Deserialize<FormattedKeyDictionary>(
+                "{\"Mittwoch, 1. Januar 2020\":\"1\"}");
+            
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result[new DateTime(2020, 1, 1)], Is.EqualTo("1"));
         }
     }
 }
