@@ -24,6 +24,7 @@ namespace ExactJson.Tests.Unit.Serialization.Features
         private sealed class Profile
         {
             [JsonNode("link")]
+            [JsonOptional]
             [JsonConverter(typeof(UriConverter))]
             public Uri Link { get; set; }
         }
@@ -51,6 +52,52 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             var result = serializer.Deserialize<Profile>("{\"link\":\"http://localhost/\"}");
 
             Assert.That(result.Link, Is.EqualTo(new Uri("http://localhost")));
+        }
+        
+        [Test]
+        public void Serialize_NullPropertyWithConverter()
+        {
+            var p = new Profile();
+
+            var serializer = new JsonSerializer();
+
+            var result = serializer.Serialize<Profile>(p);
+
+            Assert.That(result, Is.EqualTo("{}"));
+        }
+
+        [Test]
+        public void Deserialize_NullPropertyWithConverter()
+        {
+            var serializer = new JsonSerializer();
+
+            var result = serializer.Deserialize<Profile>("{}");
+
+            Assert.That(result.Link, Is.Null);
+        }
+        
+        [Test]
+        public void Serialize_ExplicitNullPropertyWithConverter()
+        {
+            var p = new Profile();
+
+            var serializer = new JsonSerializer() {
+                SerializeNullProperty = true
+            };
+
+            var result = serializer.Serialize<Profile>(p);
+
+            Assert.That(result, Is.EqualTo("{\"link\":null}"));
+        }
+
+        [Test]
+        public void Deserialize_ExplicitNullPropertyWithConverter()
+        {
+            var serializer = new JsonSerializer();
+
+            var result = serializer.Deserialize<Profile>("{\"link\":null}");
+
+            Assert.That(result.Link, Is.Null);
         }
     }
 }

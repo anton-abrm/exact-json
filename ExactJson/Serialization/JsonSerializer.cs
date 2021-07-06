@@ -484,13 +484,24 @@ namespace ExactJson.Serialization
         {
             var converter = ctx.GetConverter();
             if (converter is not null) {
-                return converter.GetValue(reader.ReadString(), new JsonConverterContext {
-                    Format = ctx.GetFormat(),
-                    FormatProvider = ctx.GetFormatProvider(this),
-                    TargetType = targetType.UnwrappedType,
-                });
-            }
 
+                switch (reader.TokenType) {
+                    
+                    case JsonTokenType.Null:
+                        return DeserializeNull(reader);
+                    
+                    case JsonTokenType.String:
+                        return converter.GetValue(reader.ReadString(), new JsonConverterContext {
+                            Format = ctx.GetFormat(),
+                            FormatProvider = ctx.GetFormatProvider(this),
+                            TargetType = targetType.UnwrappedType,
+                        });
+                    
+                    default:
+                        throw new JsonInvalidTypeException();
+                }
+            }
+            
             switch (reader.TokenType) {
 
                 case JsonTokenType.StartObject when targetType.MetaCode == MetaTypeCode.Dictionary:
