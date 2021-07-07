@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace ExactJson.Tests.Unit.Serialization.Features
 {
-    public sealed class MisconfigurationTests
+    public sealed class SerializationErrorTests
     {
         private enum EnumWithoutAttributes
         {
