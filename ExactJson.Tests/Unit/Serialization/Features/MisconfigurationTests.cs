@@ -22,6 +22,14 @@ namespace ExactJson.Tests.Unit.Serialization.Features
                 set {}
             }
         }
+        
+        private abstract class BaseClass
+        {
+        }
+        
+        private sealed class DerivedClass : BaseClass
+        {
+        }
 
         [Test]
         public void Serialize_ClassWithNoGetter_ThrowsJsonInvalidTypeException()
@@ -116,6 +124,18 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 
             var ex = Assert.Throws<JsonSerializationException>(() 
                 => serializer.Deserialize<IDictionary<string, string>>("{}"));
+            
+            Assert.That(ex, Is.Not.Null);
+            Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidTypeException>());
+        }
+
+        [Test]
+        public void Serialize_DerivedClassWithoutAlias()
+        {
+            var serializer = new JsonSerializer();
+
+            var ex = Assert.Throws<JsonSerializationException>(() 
+                => serializer.Serialize<BaseClass>(new DerivedClass()));
             
             Assert.That(ex, Is.Not.Null);
             Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidTypeException>());
