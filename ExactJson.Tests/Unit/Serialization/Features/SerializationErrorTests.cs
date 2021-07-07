@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using ExactJson.Serialization;
+using ExactJson.Serialization.Converters;
 
 using NUnit.Framework;
 
@@ -153,6 +154,20 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             
             Assert.That(ex, Is.Not.Null);
             Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidValueException>());
+        }
+        
+        [Test]
+        public void Deserialize_ConvertedValueNotString()
+        {
+            var serializer = new JsonSerializer();
+
+            var ex = Assert.Throws<JsonSerializationException>(() 
+                => serializer.Deserialize<int>("true", new JsonNodeSerializationContext() {
+                    Converter = new JsonNumberConverter()
+                }));
+            
+            Assert.That(ex, Is.Not.Null);
+            Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidTypeException>());
         }
     }
 }
