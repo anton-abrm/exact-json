@@ -140,5 +140,19 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             Assert.That(ex, Is.Not.Null);
             Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidTypeException>());
         }
+        
+        [Test]
+        public void Serialize_DictionaryWithInvalidEnumAsKey()
+        {
+            var serializer = new JsonSerializer();
+
+            var ex = Assert.Throws<JsonSerializationException>(() 
+                => serializer.Serialize<Dictionary<EnumWithoutAttributes, string>>(new Dictionary<EnumWithoutAttributes, string>() {
+                    [EnumWithoutAttributes.Foo] = "Bar"
+                }));
+            
+            Assert.That(ex, Is.Not.Null);
+            Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidValueException>());
+        }
     }
 }
