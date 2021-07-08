@@ -756,26 +756,26 @@ namespace ExactJson.Serialization
                     return result;
                 }
 
-                case MetaTypeObject meta when ctx.IsTuple(this):
+                case MetaTypeObject metaObject when ctx.IsTuple(this):
                 {
                     reader.ReadStartArray();
 
                     if (reader.TokenType == JsonTokenType.String) {
                         if (_typeAliases.TryGetValue(reader.ValueAsString, out var type)) {
-                            meta = (MetaTypeObject) MetaType.FromType(type);
+                            metaObject = (MetaTypeObject) MetaType.FromType(type);
                             reader.Read();
                         }
                     }
 
-                    CheckType(meta);
+                    CheckType(metaObject);
 
-                    var result = meta.Constructor();
+                    var result = metaObject.Constructor();
 
                     int index = 0;
 
                     while (reader.TokenType != JsonTokenType.EndArray) {
 
-                        var property = meta.Properties[index];
+                        var property = metaObject.Properties[index];
                         
                         CheckProperty(property);
 
@@ -798,7 +798,7 @@ namespace ExactJson.Serialization
 
                     reader.ReadEndArray();
 
-                    if (index != meta.Properties.Count) {
+                    if (index != metaObject.Properties.Count) {
                         throw new JsonInvalidValueException();
                     }
 
