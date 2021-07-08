@@ -1,6 +1,7 @@
 ﻿using System;
 
 using ExactJson.Serialization;
+using ExactJson.Serialization.Converters;
 
 using NUnit.Framework;
 
@@ -98,6 +99,20 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             var result = serializer.Deserialize<Profile>("{\"link\":null}");
 
             Assert.That(result.Link, Is.Null);
+        }
+        
+        [Test]
+        public void Deserialize_ConvertedValueNotString()
+        {
+            var serializer = new JsonSerializer();
+
+            var ex = Assert.Throws<JsonSerializationException>(() 
+                => serializer.Deserialize<int>("true", new JsonNodeSerializationContext() {
+                    Converter = new JsonNumberConverter()
+                }));
+            
+            Assert.That(ex, Is.Not.Null);
+            Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidTypeException>());
         }
     }
 }
