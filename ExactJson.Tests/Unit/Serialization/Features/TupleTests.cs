@@ -8,6 +8,14 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 {
     public class TupleTests
     {
+        private abstract class Base { }
+
+        private sealed class Derived : Base
+        {
+            [JsonNode]
+            public string Foo { get; set; }
+        }
+
         private sealed class PersonWithOptionalName
         {
             [JsonNode]
@@ -146,6 +154,24 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 
             Assert.That(actual, Is.EqualTo(original));
         }
-        
+
+        [Test]
+        public void Serialize_Derived()
+        {
+            var original = "[\"DERIVED\",\"Bar\"]";
+
+            var serializer = new JsonSerializer() {
+                IsNodeTuple = true,
+            };
+
+            serializer.RegisterType<Derived>("DERIVED");
+
+            var obj = serializer.Deserialize<Base>(original);
+
+            var actual = serializer.Serialize<Base>(obj);
+
+            Assert.That(actual, Is.EqualTo(original));
+        }
+
     }
 }
