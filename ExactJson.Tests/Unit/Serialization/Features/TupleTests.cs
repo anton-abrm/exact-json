@@ -22,7 +22,13 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             [JsonOptional]
             public string Name { get; set; }
         }
-        
+
+        private sealed class PersonWithNoSetter
+        {
+            [JsonNode]
+            public string Name { get; } = "Bob";
+        }
+
         [JsonTuple]
         private sealed class PersonWithTupleAttribute
         {
@@ -173,5 +179,18 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             Assert.That(actual, Is.EqualTo(original));
         }
 
+        [Test]
+        public void Serialize_NoSetter()
+        {
+            var serializer = new JsonSerializer() {
+                IsNodeTuple = true,
+            };
+
+            var obj = serializer.Deserialize<PersonWithNoSetter>("[\"Alice\"]");
+
+            var actual = serializer.Serialize<PersonWithNoSetter>(obj);
+
+            Assert.That(actual, Is.EqualTo("[\"Bob\"]"));
+        }
     }
 }
