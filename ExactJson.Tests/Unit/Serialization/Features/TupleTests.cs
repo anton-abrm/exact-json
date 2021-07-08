@@ -192,5 +192,22 @@ namespace ExactJson.Tests.Unit.Serialization.Features
 
             Assert.That(actual, Is.EqualTo("[\"Bob\"]"));
         }
+
+        [TestCase("[1,\"John\", 4]")]
+        [TestCase("[1]")]
+        public void Deserialize_InvalidFieldCount(string json)
+        {
+            var serializer = new JsonSerializer();
+
+            var ctx = new JsonNodeSerializationContext {
+                IsTuple = true
+            };
+            
+            var ex = Assert.Throws<JsonSerializationException>(() 
+                => serializer.Deserialize<Person>(json, ctx));
+            
+            Assert.That(ex, Is.Not.Null);
+            Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidValueException>());
+        }
     }
 }

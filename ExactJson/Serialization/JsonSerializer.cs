@@ -773,9 +773,15 @@ namespace ExactJson.Serialization
 
                     int index = 0;
 
+                    var properties = metaObject.Properties;
+                    
                     while (reader.TokenType != JsonTokenType.EndArray) {
 
-                        var property = metaObject.Properties[index];
+                        if (index == properties.Count) {
+                            throw new JsonInvalidValueException();
+                        }
+                        
+                        var property = properties[index];
                         
                         CheckProperty(property);
 
@@ -795,12 +801,12 @@ namespace ExactJson.Serialization
                         
                         index++;
                     }
-
-                    reader.ReadEndArray();
-
-                    if (index != metaObject.Properties.Count) {
+                    
+                    if (index != properties.Count) {
                         throw new JsonInvalidValueException();
                     }
+                    
+                    reader.ReadEndArray();
 
                     return result;
                 }
