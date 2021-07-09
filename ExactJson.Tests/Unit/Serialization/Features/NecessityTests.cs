@@ -178,6 +178,42 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             Assert.That(result, Is.EqualTo("{}"));
         }
         
+        [Test]
+        public void Serialize_RequiredByDefault_ValueNotNull()
+        {
+            var result = new JsonSerializer().Serialize<int?>(1);
+            
+            Assert.That(result, Is.EqualTo("1"));
+        }
+        
+        [Test]
+        public void Serialize_RequiredByDefault_ValueNull_ThrowsJsonMissingRequiredPropertyException()
+        {
+            var ex = Assert.Throws<JsonSerializationException>(() =>
+            {
+                new JsonSerializer().Serialize<int?>(null);
+            });
+
+            Assert.That(ex.Pointer, Is.EqualTo(""));
+            Assert.That(ex.InnerException, Is.InstanceOf(typeof(JsonMissingRequiredValueException)));
+        }
+        
+        [Test]
+        public void Serialize_OptionalByDefault_ValueNotNull()
+        {
+            var result = new JsonSerializer() { IsNodeOptional = true }.Serialize<int?>(1);
+            
+            Assert.That(result, Is.EqualTo("1"));
+        }
+        
+        [Test]
+        public void Serialize_OptionalByDefault_ValueNull()
+        {
+            var result = new JsonSerializer() { IsNodeOptional = true }.Serialize<int?>(null);
+            
+            Assert.That(result, Is.EqualTo("null"));
+        }
+        
         #endregion
         
         #region Deserialize
@@ -299,6 +335,42 @@ namespace ExactJson.Tests.Unit.Serialization.Features
                .Deserialize<EntityUndefined>("{}");
             
             Assert.That(result.Foo, Is.Null);
+        }
+
+        [Test]
+        public void Deserialize_RequiredByDefault_ValueNotNull()
+        {
+            var result = new JsonSerializer().Deserialize<int?>("1");
+            
+            Assert.That(result, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void Deserialize_RequiredByDefault_ValueNull_ThrowsJsonMissingRequiredPropertyException()
+        {
+            var ex = Assert.Throws<JsonSerializationException>(() =>
+            {
+                new JsonSerializer().Deserialize<int?>("null");
+            });
+        
+           Assert.That(ex.Pointer, Is.EqualTo(""));
+           Assert.That(ex.InnerException, Is.InstanceOf(typeof(JsonMissingRequiredValueException)));
+        }
+        
+        [Test]
+        public void Deserialize_OptionalByDefault_ValueNotNull()
+        {
+            var result = new JsonSerializer{ IsNodeOptional = true }.Deserialize<int?>("1");
+            
+            Assert.That(result, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void Deserialize_OptionalByDefault_ValueNull()
+        {
+            var result = new JsonSerializer{ IsNodeOptional = true }.Deserialize<int?>("null");
+            
+            Assert.That(result, Is.EqualTo(null));
         }
         
         #endregion
