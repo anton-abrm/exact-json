@@ -77,10 +77,10 @@ namespace ExactJson.Serialization
                 => context;
 
             public override IMetaContext KeyContext
-                => _keyCtx ?? (_keyCtx = new KeyContextWrapper(Serializer, Type, NodeContext));
+                => _keyCtx ??= new KeyContextWrapper(Serializer, Type, NodeContext);
 
             public override IMetaContext ItemContext
-                => _itemCtx ?? (_itemCtx = new ItemContextWrapper(Serializer, Type, NodeContext));
+                => _itemCtx ??= new ItemContextWrapper(Serializer, Type, NodeContext);
 
             public JsonNodeSerializationContext InternalContext
                 => NodeContext;
