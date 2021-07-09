@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 using ExactJson.Serialization;
 using ExactJson.Serialization.Converters;
@@ -509,6 +510,27 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             
             Assert.That(ex, Is.Not.Null);
             Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidValueException>());
+        }
+
+        [Test]
+        public void Serialize_TypeIsNull_ThrowsArgumentNullException()
+        {
+            var serializer = new JsonSerializer();
+            
+            var sw = new StringWriter();
+            var jw = new JsonTextWriter(sw);
+            
+            Assert.Throws<ArgumentNullException>(() 
+                => serializer.Serialize((Type) null, jw, new object(), (JsonNodeSerializationContext) null));
+        }
+        
+        [Test]
+        public void Serialize_WriterIsNull_ThrowsArgumentNullException()
+        {
+            var serializer = new JsonSerializer();
+            
+            Assert.Throws<ArgumentNullException>(() 
+                => serializer.Serialize(typeof(object), null, new object(), (JsonNodeSerializationContext) null));
         }
     }
 }
