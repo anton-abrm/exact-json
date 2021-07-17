@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 using ExactJson.Serialization;
 
@@ -43,6 +44,33 @@ namespace ExactJson.Tests.Unit.Serialization
             
             Assert.Throws<ArgumentException>(() 
                 => serializer.RegisterType(typeof(List<int>), ""));
+        }
+        
+        [Test]
+        public void Deserialize_TypeNull_ThrowsArgumentNullException()
+        {
+            var serializer = new JsonSerializer();
+
+            Assert.Throws<ArgumentNullException>(() 
+                => serializer.Deserialize(null, new JsonStringReader("")));
+        }
+        
+        [Test]
+        public void Deserialize_ReaderNull_ThrowsArgumentNullException()
+        {
+            var serializer = new JsonSerializer();
+            
+            Assert.Throws<ArgumentNullException>(() 
+                => serializer.Deserialize(typeof(object), (JsonReader) null));
+        }
+        
+        [Test]
+        public void Deserialize_ReaderAtEOF_ThrowsEndOfStreamException()
+        {
+            var serializer = new JsonSerializer();
+            
+            Assert.Throws<EndOfStreamException>(() 
+                => serializer.Deserialize(typeof(object), new JsonStringReader("")));
         }
     }
 }
