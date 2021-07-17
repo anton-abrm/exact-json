@@ -72,5 +72,34 @@ namespace ExactJson.Tests.Unit.Serialization
             Assert.Throws<EndOfStreamException>(() 
                 => serializer.Deserialize(typeof(object), new JsonStringReader("")));
         }
+        
+      
+        [Test]
+        public void SetContext_TypeNull_ThrowsArgumentNullException()
+        {
+            var serializer = new JsonSerializer();
+
+            Assert.Throws<ArgumentNullException>(() 
+                => serializer.SetContext(null, new JsonNodeSerializationContext()));
+        }
+        
+        [Test]
+        public void SetContext_ContextNull_ThrowsArgumentNullException()
+        {
+            var serializer = new JsonSerializer();
+
+            Assert.Throws<ArgumentNullException>(() 
+                => serializer.SetContext(typeof(object), null));
+        }
+        
+        [Test]
+        public void SetContext_NullableType_ThrowsArgumentException()
+        {
+            var serializer = new JsonSerializer();
+            
+            Assert.Throws<ArgumentException>(() 
+                => serializer.SetContext(typeof(int?), new JsonNodeSerializationContext()));
+        }
+
     }
 }
