@@ -6,16 +6,16 @@ namespace ExactJson.Serialization
 {
     public sealed partial class JsonSerializer
     {
+        #region Context
+
         public JsonNodeSerializationContext GetContext<T>()
-        {
-            return GetContext(typeof(T));
-        }
+            => GetContext(typeof(T));
 
         public void SetContext<T>(JsonNodeSerializationContext context)
-        {
-            SetContext(typeof(T), context);
-        }
+            => SetContext(typeof(T), context);
 
+        #endregion
+        
         #region Serialize
 
         public void Serialize<T>(JsonWriter writer, object value)
