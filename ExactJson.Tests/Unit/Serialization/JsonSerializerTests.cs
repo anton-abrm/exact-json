@@ -141,6 +141,31 @@ namespace ExactJson.Tests.Unit.Serialization
             Assert.Throws<ArgumentNullException>(() 
                 => serializer.GetContext(null));
         }
+        
+        [Test]
+        public void Serialize_ToWriter()
+        {
+            var serializer = new JsonSerializer();
 
+            var sw = new StringWriter();
+            var jw = new JsonTextWriter(sw);
+
+            serializer.Serialize(typeof(object), jw, new object());
+            
+            Assert.That(sw.ToString(), Is.EqualTo("{}"));
+        }
+
+        [Test]
+        public void Serialize_Generic_ToWriter()
+        {
+            var serializer = new JsonSerializer();
+
+            var sw = new StringWriter();
+            var jw = new JsonTextWriter(sw);
+
+            serializer.Serialize<object>(jw, new object());
+            
+            Assert.That(sw.ToString(), Is.EqualTo("{}"));
+        }
     }
 }
