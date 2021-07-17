@@ -433,7 +433,7 @@ namespace ExactJson.Serialization
 
         #region Deserialize
 
-        public object Deserialize(Type type, JsonReader reader, JsonNodeSerializationContext context = null)
+        public object Deserialize(Type type, JsonReader reader, JsonNodeSerializationContext context)
         {
             if (type is null) {
                 throw new ArgumentNullException(nameof(type));

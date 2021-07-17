@@ -52,7 +52,13 @@ namespace ExactJson.Serialization
 
         #region Deserialize
 
-        public object Deserialize(Type type, string json, JsonNodeSerializationContext context = null)
+        public object Deserialize(Type type, JsonReader reader)
+            => Deserialize(type, reader, null);
+        
+        public object Deserialize(Type type, string json)
+            => Deserialize(type, json, null);
+
+        public object Deserialize(Type type, string json, JsonNodeSerializationContext context)
         {
             using (var jr = new JsonStringReader(json)) {
                 return Deserialize(type, jr, context);
