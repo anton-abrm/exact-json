@@ -101,5 +101,46 @@ namespace ExactJson.Tests.Unit.Serialization
                 => serializer.SetContext(typeof(int?), new JsonNodeSerializationContext()));
         }
 
+        [Test]
+        public void GetContext_Generic()
+        {
+            var serializer = new JsonSerializer();
+
+            var ctx = new JsonNodeSerializationContext();
+            
+            serializer.SetContext<object>(ctx);
+            
+            Assert.That(serializer.GetContext<object>(), Is.SameAs(ctx));
+        }
+        
+        [Test]
+        public void GetContext()
+        {
+            var serializer = new JsonSerializer();
+
+            var ctx = new JsonNodeSerializationContext();
+            
+            serializer.SetContext(typeof(object), ctx);
+            
+            Assert.That(serializer.GetContext(typeof(object)), Is.SameAs(ctx));
+        }
+        
+        [Test]
+        public void GetContext_HasNotBeenSet_ReturnsNull()
+        {
+            var serializer = new JsonSerializer();
+
+            Assert.That(serializer.GetContext<object>(), Is.Null);
+        }
+        
+        [Test]
+        public void GetContext_TypeNull_ThrowsArgumentNullException()
+        {
+            var serializer = new JsonSerializer();
+
+            Assert.Throws<ArgumentNullException>(() 
+                => serializer.GetContext(null));
+        }
+
     }
 }
