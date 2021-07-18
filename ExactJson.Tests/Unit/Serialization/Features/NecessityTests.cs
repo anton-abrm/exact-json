@@ -214,6 +214,68 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             Assert.That(result, Is.EqualTo("null"));
         }
         
+        [Test]
+        public void Serialize_RequiredBound_ValueNotNull()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<int>(new JsonNodeSerializationContext() {
+                IsOptional = false
+            });
+            
+            var result = serializer.Serialize<int?>(1);
+            
+            Assert.That(result, Is.EqualTo("1"));
+        }
+        
+        [Test]
+        public void Serialize_RequiredBound_ValueNull_ThrowsJsonMissingRequiredPropertyException()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<int>(new JsonNodeSerializationContext() {
+                IsOptional = false
+            });
+            
+            var ex = Assert.Throws<JsonSerializationException>(() =>
+            {
+                serializer.Serialize<int?>(null);
+            });
+
+            Assert.That(ex.Pointer, Is.EqualTo(""));
+            Assert.That(ex.InnerException, Is.InstanceOf(typeof(JsonMissingRequiredValueException)));
+        }
+        
+        [Test]
+        public void Serialize_OptionalBound_ValueNotNull()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<int>(new JsonNodeSerializationContext() {
+                IsOptional = true
+            });
+            
+            var result = serializer.Serialize<int?>(1);
+            
+            Assert.That(result, Is.EqualTo("1"));
+        }
+        
+        [Test]
+        public void Serialize_OptionalBound_ValueNull()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<int>(new JsonNodeSerializationContext() {
+                IsOptional = true
+            });
+            
+            var result = serializer.Serialize<int?>(null);
+            
+            Assert.That(result, Is.EqualTo("null"));
+        }
+        
+      
+        
         #endregion
         
         #region Deserialize
@@ -369,6 +431,66 @@ namespace ExactJson.Tests.Unit.Serialization.Features
         public void Deserialize_OptionalByDefault_ValueNull()
         {
             var result = new JsonSerializer{ IsNodeOptional = true }.Deserialize<int?>("null");
+            
+            Assert.That(result, Is.EqualTo(null));
+        }
+        
+        [Test]
+        public void Deserialize_RequiredBound_ValueNotNull()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<int>(new JsonNodeSerializationContext() {
+                IsOptional = false
+            });
+            
+            var result = serializer.Deserialize<int?>("1");
+            
+            Assert.That(result, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void Deserialize_RequiredBound_ValueNull_ThrowsJsonMissingRequiredPropertyException()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<int>(new JsonNodeSerializationContext() {
+                IsOptional = false
+            });
+            
+            var ex = Assert.Throws<JsonSerializationException>(() =>
+            {
+                serializer.Deserialize<int?>("null");
+            });
+        
+            Assert.That(ex.Pointer, Is.EqualTo(""));
+            Assert.That(ex.InnerException, Is.InstanceOf(typeof(JsonMissingRequiredValueException)));
+        }
+        
+        [Test]
+        public void Deserialize_OptionalBound_ValueNotNull()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<int>(new JsonNodeSerializationContext() {
+                IsOptional = true
+            });
+            
+            var result = serializer.Deserialize<int?>("1");
+            
+            Assert.That(result, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void Deserialize_OptionalBound_ValueNull()
+        {
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<int>(new JsonNodeSerializationContext() {
+                IsOptional = true
+            });
+            
+            var result = serializer.Deserialize<int?>("null");
             
             Assert.That(result, Is.EqualTo(null));
         }
