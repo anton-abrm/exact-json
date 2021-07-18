@@ -155,6 +155,35 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             Assert.That(result, Is.InstanceOf<List<Base>>());
             Assert.That(result[0], Is.InstanceOf<Derived>());
         }
+        
+        [Test]
+        public void Serialize_TypePropertyName_BoundContext()
+        {
+            var serializer = CreateSerializer();
+            
+            serializer.SetContext<Base>(new JsonNodeSerializationContext() {
+                TypePropertyName = "$type"
+            });
+
+            var json = serializer.Serialize<Base>(new Derived());
+            
+            Assert.That(json, Is.EqualTo("{\"$type\":\"DERIVED\"}"));
+        }
+        
+        [Test]
+        public void Deserialize_TypePropertyName_BoundContext()
+        {
+            var serializer = CreateSerializer();
+            
+            serializer.SetContext<Base>(new JsonNodeSerializationContext() {
+                TypePropertyName = "$type"
+            });
+
+
+            var result = serializer.Deserialize<Base>("{\"$type\":\"DERIVED\"}");
+
+           Assert.That(result, Is.InstanceOf<Derived>());
+        }
     }
 
 }
