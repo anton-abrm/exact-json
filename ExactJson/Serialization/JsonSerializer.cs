@@ -654,24 +654,11 @@ namespace ExactJson.Serialization
             while (reader.TokenType != JsonTokenType.EndObject) {
 
                 var name = reader.ReadProperty();
-
+                
                 if (name == typePropertyName) {
 
-                    if (reader.TokenType == JsonTokenType.String) {
-
-                        var value = reader.ReadString();
-
-                        if (typeAlias is not null && typeAlias == value) {
-                            continue;
-                        }
-
-                        if (!_typeAliases.TryGetValue(value, out var type)) {
-                            continue;
-                        }
-
-                        if (meta.UnwrappedType == type) {
-                            continue;
-                        }
+                    if (reader.TokenType == JsonTokenType.String && typeAlias == reader.ReadString()) {
+                        continue;
                     }
 
                     throw new JsonInvalidTypeException();
