@@ -25,6 +25,12 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             }
         }
         
+        private sealed class ClassWithNoSetter
+        {
+            [JsonNode]
+            public string Foo => "Bar";
+        }
+        
         private abstract class BaseClass
         {
         }
@@ -531,6 +537,27 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             
             Assert.Throws<ArgumentNullException>(() 
                 => serializer.Serialize(typeof(object), null, new object(), (JsonNodeSerializationContext) null));
+        }
+        
+        [Test]
+        public void Serialize_ClassWithNoSetter()
+        {
+            var serializer = new JsonSerializer();
+
+            var result = serializer.Serialize<ClassWithNoSetter>(new ClassWithNoSetter());
+            
+            Assert.That(result, Is.EqualTo("{\"Foo\":\"Bar\"}"));
+        }
+        
+        [Test]
+        public void Deserialize_ClassWithNoSetter()
+        {
+            var serializer = new JsonSerializer();
+
+            var result = serializer.Deserialize<ClassWithNoSetter>("{\"Foo\":\"Baz\"}");
+            
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Foo, Is.EqualTo("Bar"));
         }
     }
 }
