@@ -209,5 +209,24 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             Assert.That(ex, Is.Not.Null);
             Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidValueException>());
         }
+
+        [Test]
+        public void Serialize_BoundTuple()
+        {
+            var json = "[1,\"John\"]";
+            
+            var serializer = new JsonSerializer();
+            
+            serializer.SetContext<Person>(new JsonNodeSerializationContext() {
+                IsTuple = true
+            });
+
+            var person = serializer.Deserialize<Person>(json);
+            var result = serializer.Serialize<Person>(person);
+            
+            Assert.That(result, Is.EqualTo(json));
+        }
+        
+        
     }
 }
