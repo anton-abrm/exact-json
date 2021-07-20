@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using ExactJson.Serialization.Meta;
 
@@ -94,7 +95,10 @@ namespace ExactJson.Serialization
             protected override IMetaContext SelectContext(JsonNodeSerializationContext context)
                 => context.KeyContext;
 
+            [ExcludeFromCodeCoverage]
             public override IMetaContext KeyContext => null;
+            
+            [ExcludeFromCodeCoverage]
             public override IMetaContext ItemContext => null;
         }
 
@@ -106,7 +110,10 @@ namespace ExactJson.Serialization
             protected override IMetaContext SelectContext(JsonNodeSerializationContext context)
                 => context.ItemContext;
             
+            [ExcludeFromCodeCoverage]
             public override IMetaContext KeyContext => null;
+            
+            [ExcludeFromCodeCoverage]
             public override IMetaContext ItemContext => null;
         }
     }
