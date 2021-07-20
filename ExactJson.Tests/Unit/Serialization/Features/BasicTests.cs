@@ -19,10 +19,7 @@ namespace ExactJson.Tests.Unit.Serialization.Features
         private sealed class ClassWithNoGetter
         {
             [JsonNode]
-            public string Foo 
-            {
-                set {}
-            }
+            public string Foo { set {} }
         }
         
         private sealed class ClassWithNoSetter
