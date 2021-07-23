@@ -316,7 +316,7 @@ namespace ExactJson.Serialization
                     }
 
                     if (name is null) {
-                        throw new JsonInvalidValueException();
+                        throw new JsonInvalidValueException("Invalid key for dictionary.");
                     }
                     
                     var childValue = targetType.ValueGetter(kvp);
@@ -365,7 +365,7 @@ namespace ExactJson.Serialization
         {
             var name = type.TryGetName(value);
             if (name is null) {
-                throw new JsonInvalidValueException();
+                throw new JsonInvalidValueException("Invalid enum value.");
             }
             
             writer.WriteString(name);
@@ -498,7 +498,8 @@ namespace ExactJson.Serialization
                         });
                     
                     default:
-                        throw new JsonInvalidTypeException();
+                        throw new JsonInvalidTypeException(
+                            $"Unable to use converter for value. Unexpected token: {reader.TokenType}.");
                 }
             }
             
@@ -566,7 +567,7 @@ namespace ExactJson.Serialization
                 }
 
                 if (key is null) {
-                    throw new JsonInvalidValueException();
+                    throw new JsonInvalidValueException("Invalid key for dictionary.");
                 }
 
                 var itemCtx = ctx.Item()
@@ -588,7 +589,7 @@ namespace ExactJson.Serialization
         {
             var meta = targetType as MetaTypeObject;
             if (meta is null) {
-                throw new JsonInvalidTypeException();
+                throw new JsonInvalidTypeException($"Unexpected meta type {targetType.MetaCode}.");
             }
 
             var typePropertyName = ctx.GetTypePropertyName(this);
@@ -605,7 +606,8 @@ namespace ExactJson.Serialization
                         reader.ReadProperty();
 
                         if (reader.TokenType != JsonTokenType.String) {
-                            throw new JsonInvalidTypeException();
+                            throw new JsonInvalidTypeException(
+                                $"Unexpected type property token {reader.TokenType}.");
                         }
 
                         typeAlias = reader.ReadString();
@@ -625,7 +627,8 @@ namespace ExactJson.Serialization
                         reader.ReadProperty();
 
                         if (reader.TokenType != JsonTokenType.String) {
-                            throw new JsonInvalidTypeException();
+                            throw new JsonInvalidTypeException(
+                                $"Unexpected type property token {reader.TokenType}.");
                         }
 
                         typeAlias = reader.ReadString();
@@ -635,7 +638,8 @@ namespace ExactJson.Serialization
                 if (typeAlias is not null) {
 
                     if (!_typeAliases.TryGetValue(typeAlias, out var type)) {
-                        throw new JsonInvalidTypeException();
+                        throw new JsonInvalidTypeException(
+                            $"Type with alias '{typeAlias}' is not registered.");
                     }
 
                     meta = (MetaTypeObject) MetaType.FromType(type);
@@ -661,7 +665,7 @@ namespace ExactJson.Serialization
                         continue;
                     }
 
-                    throw new JsonInvalidTypeException();
+                    throw new JsonInvalidTypeException("Detected unused or invalid type property.");
                 }
                 
                 var property = meta.Properties.Find(name);
@@ -765,7 +769,7 @@ namespace ExactJson.Serialization
                     while (reader.TokenType != JsonTokenType.EndArray) {
 
                         if (index == properties.Count) {
-                            throw new JsonInvalidValueException();
+                            throw new JsonInvalidValueException("Count of properties is out of range.");
                         }
                         
                         var property = properties[index];
@@ -790,7 +794,7 @@ namespace ExactJson.Serialization
                     }
                     
                     if (index != properties.Count) {
-                        throw new JsonInvalidValueException();
+                        throw new JsonInvalidValueException("Count of properties is out of range.");
                     }
                     
                     reader.ReadEndArray();
@@ -799,7 +803,7 @@ namespace ExactJson.Serialization
                 }
 
                 default:
-                    throw new JsonInvalidTypeException();
+                    throw new JsonInvalidTypeException($"Unexpected meta type {targetType.MetaCode}.");
             }
         }
 
@@ -813,11 +817,14 @@ namespace ExactJson.Serialization
         {
             switch (targetType) {
 
-                case MetaTypePrimitive primitive when primitive.PrimitiveCode == MetaTypePrimitiveCode.Boolean:
+                case MetaTypePrimitive { PrimitiveCode: MetaTypePrimitiveCode.Boolean }:
                     return reader.ReadBool();
+                
+                case MetaTypePrimitive primitiveType:
+                    throw new JsonInvalidTypeException($"Unexpected primitive type {primitiveType.PrimitiveCode}.");
 
                 default:
-                    throw new JsonInvalidTypeException();
+                    throw new JsonInvalidTypeException($"Unexpected meta type {targetType.MetaCode}.");
             }
         }
 
@@ -825,15 +832,15 @@ namespace ExactJson.Serialization
         {
             switch (targetType) {
 
-                case MetaTypePrimitive primitive when primitive.PrimitiveCode == MetaTypePrimitiveCode.String:
+                case MetaTypePrimitive { PrimitiveCode: MetaTypePrimitiveCode.String }:
                     return reader.ReadString();
 
                 case MetaTypeEnum enumType:
                     return enumType.TryGetValue(targetType.UnwrappedType, reader.ReadString())
-                        ?? throw new JsonInvalidValueException();
+                        ?? throw new JsonInvalidValueException("Enum value not found.");
 
                 default:
-                    throw new JsonInvalidTypeException();
+                    throw new JsonInvalidTypeException($"Unexpected meta type {targetType.MetaCode}.");
             }
         }
 
@@ -841,7 +848,7 @@ namespace ExactJson.Serialization
         {
             var primitiveType = targetType as MetaTypePrimitive;
             if (primitiveType is null) {
-                throw new JsonInvalidTypeException();
+                throw new JsonInvalidTypeException($"Unexpected meta type {targetType.MetaCode}.");
             }
 
             try {
@@ -882,7 +889,7 @@ namespace ExactJson.Serialization
                         return (decimal) reader.ReadNumber(out _);
 
                     default:
-                        throw new JsonInvalidTypeException();
+                        throw new JsonInvalidTypeException($"Unexpected primitive type {primitiveType.PrimitiveCode}.");
                 }
             }
             catch (OverflowException) {
