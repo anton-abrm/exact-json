@@ -58,7 +58,7 @@ namespace ExactJson
             get
             {
                 if (TokenType != JsonTokenType.Bool) {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException($"Unexpected token: {TokenType}.");
                 }
 
                 return ((JsonBool) _stack.Peek().Value).Value;
@@ -78,7 +78,7 @@ namespace ExactJson
                         return ((JsonString) _stack.Peek().Value).Value;
 
                     default:
-                        throw new InvalidOperationException();
+                        throw new InvalidOperationException($"Unexpected token: {TokenType}.");
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace ExactJson
             get
             {
                 if (TokenType != JsonTokenType.Number) {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException($"Unexpected token: {TokenType}.");
                 }
 
                 return ((JsonNumber) _stack.Peek().Value).Value;
@@ -100,7 +100,7 @@ namespace ExactJson
             get
             {
                 if (TokenType != JsonTokenType.Number) {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException($"Unexpected token: {TokenType}.");
                 }
 
                 return ((JsonNumber) _stack.Peek().Value).Format;
@@ -221,7 +221,7 @@ namespace ExactJson
                     break;
 
                 default:
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException($"Unexpected token: {TokenType}.");
             }
 
             var jsonObject = (JsonObject) _stack.Peek().Value;
