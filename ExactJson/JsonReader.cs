@@ -205,7 +205,7 @@ namespace ExactJson
                     break;
                 
                 default:
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException($"Unexpected token: {TokenType}.");
             }
 
             while (TokenType != JsonTokenType.EndObject) {
