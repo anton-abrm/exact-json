@@ -34,23 +34,18 @@ namespace ExactJson
         
         public override void WriteProperty(string name)
         {
-            if (_stack.Count == 0) {
-                throw new InvalidOperationException();
-            }
-            
-            if (_stack.Peek().Node.NodeType != JsonNodeType.Object) {
-                throw new InvalidOperationException();
-            }
-
-            if (_stack.Peek().Name is not null) {
-                throw new InvalidOperationException();
+            if (_stack.Count == 0 || 
+                _stack.Peek().Node.NodeType != JsonNodeType.Object || 
+                _stack.Peek().Name is not null) {
+                throw new InvalidOperationException(
+                    $"Token {JsonTokenType.Property} in the current state would result in an invalid JSON document.");
             }
 
             var slot = _stack.Pop();
             
             _stack.Push(new Slot(name, slot.Node));
         }
-
+        
         public override void WriteNull()
         {
             WriteStartContainerOrValue(JsonNull.Create());
@@ -76,23 +71,13 @@ namespace ExactJson
             WriteStartContainerOrValue(new JsonObject());
         }
         
-        public override void WriteStartArray()
-        {
-            WriteStartContainerOrValue(new JsonArray());
-        }
-        
         public override void WriteEndObject()
         {
-            if (_stack.Count == 0) {
-                throw new InvalidOperationException();
-            }
-            
-            if (_stack.Peek().Node.NodeType != JsonNodeType.Object) {
-                throw new InvalidOperationException();
-            }
-            
-            if (_stack.Peek().Name is not null) {
-                throw new InvalidOperationException();
+            if (_stack.Count == 0 || 
+                _stack.Peek().Node.NodeType != JsonNodeType.Object || 
+                _stack.Peek().Name is not null) {
+                throw new InvalidOperationException(
+                    $"Token {JsonTokenType.EndObject} in the current state would result in an invalid JSON document.");
             }
 
             var slot = _stack.Pop();
@@ -101,15 +86,18 @@ namespace ExactJson
                 _nodes.Add(slot.Node);
             }
         }
-
+        
+        public override void WriteStartArray()
+        {
+            WriteStartContainerOrValue(new JsonArray());
+        }
+        
         public override void WriteEndArray()
         {
-            if (_stack.Count == 0) {
-                throw new InvalidOperationException();
-            }
-
-            if (_stack.Peek().Node.NodeType != JsonNodeType.Array) {
-                throw new InvalidOperationException();
+            if (_stack.Count == 0 || 
+                _stack.Peek().Node.NodeType != JsonNodeType.Array) {
+                throw new InvalidOperationException(
+                    $"Token {JsonTokenType.EndArray} in the current state would result in an invalid JSON document.");
             }
 
             var slot = _stack.Pop();
@@ -140,7 +128,8 @@ namespace ExactJson
                     {
                         var name = parent.Name;
                         if (name is null) {
-                            throw new InvalidOperationException();
+                            throw new InvalidOperationException(
+                                $"Node {node.NodeType} in the current state would result in an invalid JSON document.");
                         }
                     
                         jsonObject[name] = node;
@@ -192,8 +181,12 @@ namespace ExactJson
         {
             CloseOpenContainers();
             
-            if (_nodes.Count != 1) {
-                throw new InvalidOperationException();
+            if (_nodes.Count == 0) {
+                throw new InvalidOperationException("Sequence is empty.");
+            }
+            
+            if (_nodes.Count > 1) {
+                throw new InvalidOperationException("Sequence contains more than one element.");
             }
 
             return _nodes[0];
