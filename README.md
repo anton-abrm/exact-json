@@ -2,6 +2,8 @@
 
 A strict and intuitive JSON library for .NET
 
+[![Build and Test](https://github.com/anton-abrm/exact-json/actions/workflows/build-and-tests.yml/badge.svg)](https://github.com/anton-abrm/exact-json/actions/workflows/build-and-tests.yml)
+
 ## Features
 
 * Intuitive and consistent API
