@@ -461,7 +461,8 @@ namespace ExactJson
                 }
             }
 
-            throw new InvalidOperationException("Unable to perform operation according to current JSON state.");
+            throw new InvalidOperationException(
+                $"Token {tokenType} in the current state would result in an invalid JSON document.");
         }
 
         protected override void Dispose(bool disposing)
