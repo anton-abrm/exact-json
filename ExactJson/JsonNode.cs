@@ -17,16 +17,19 @@ namespace ExactJson
         public abstract JsonNodeType NodeType { get; }
 
         public override string ToString()
+            => ToString(false);
+
+        public string ToString(bool formatted)
         {
             var sb = new StringBuilder();
 
             using (var sw = new StringWriter(sb)) {
-                WriteTo(sw);
+                WriteTo(sw, formatted);
             }
 
             return sb.ToString();
         }
-
+        
         public abstract bool DeepEquals(JsonNode other);
 
         public abstract JsonNode Clone();
@@ -163,12 +166,16 @@ namespace ExactJson
         public abstract void WriteTo(JsonWriter writer);
 
         public void WriteTo(TextWriter output)
+            => WriteTo(output, false);
+
+        public void WriteTo(TextWriter output, bool formatted)
         {
             if (output is null) {
                 throw new ArgumentNullException(nameof(output));
             }
 
             using (var jw = new JsonTextWriter(output)) {
+                jw.Formatted = formatted;
                 WriteTo(jw);
             }
         }
