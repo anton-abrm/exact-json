@@ -145,7 +145,7 @@ namespace ExactJson.Tests.Functional
         [TestCase(typeof(JsonNodeReader), "Earth_Meteorite_Landings.tuple.min.json", true)]
         public void DeserializeAndSerialize_Meteorite(Type readerType, string fileName, bool isTuple)
         {
-            var json = JsonSamples.GetJsonAsString(fileName);
+            var json = JsonData.GetJsonAsString(fileName);
 
             var serializer = new JsonSerializer {
                 IsNodeTuple = isTuple
@@ -242,7 +242,7 @@ namespace ExactJson.Tests.Functional
         [TestCase(typeof(VatRates), typeof(JsonNodeReader))]
         public void DeserializeAndSerialize_VatRates(Type type, Type readerType)
         {
-            var json = JsonSamples.GetJsonAsString("VAT_Rates_for_EU.min.json");
+            var json = JsonData.GetJsonAsString("VAT_Rates_for_EU.min.json");
 
             var serializer = new JsonSerializer();
 
@@ -340,7 +340,7 @@ namespace ExactJson.Tests.Functional
         [TestCase(typeof(ExchangeRates), typeof(JsonNodeReader))]
         public void DeserializeAndSerialize_ExchangeRates(Type type, Type readerType)
         {
-            var json = JsonSamples.GetJsonAsString("Exchange_Rate_USD.min.json");
+            var json = JsonData.GetJsonAsString("Exchange_Rate_USD.min.json");
 
             var serializer = new JsonSerializer();
 
@@ -393,7 +393,7 @@ namespace ExactJson.Tests.Functional
         [TestCase(typeof(GlobalTemperatureAnomaly), typeof(JsonNodeReader))]
         public void DeserializeAndSerialize_GlobalTemperatureAnomaly(Type type, Type readerType)
         {
-            var json = JsonSamples.GetJsonAsString("Global_Temperature_Anomaly.min.json");
+            var json = JsonData.GetJsonAsString("Global_Temperature_Anomaly.min.json");
 
             var serializer = new JsonSerializer();
 
@@ -459,7 +459,7 @@ namespace ExactJson.Tests.Functional
         [TestCase(typeof(AnnualTemperatureAnomaly), typeof(JsonNodeReader))]
         public void DeserializeAndSerialize_AnnualTemperatureAnomaly(Type type, Type readerType)
         {
-            var json = JsonSamples.GetJsonAsString("US_Annual_Average_Temperature_and_Anomaly.min.json");
+            var json = JsonData.GetJsonAsString("US_Annual_Average_Temperature_and_Anomaly.min.json");
 
             var serializer = new JsonSerializer();
 
@@ -647,7 +647,7 @@ namespace ExactJson.Tests.Functional
         [TestCase(typeof(JsonNodeReader), "Earthquakes.tuple.min.json", true)]
         public void DeserializeAndSerialize_Earthquakes(Type readerType, string fileName, bool isTuple)
         {
-            var json = JsonSamples.GetJsonAsString(fileName);
+            var json = JsonData.GetJsonAsString(fileName);
 
             var serializer = new JsonSerializer {
                 SerializeNullProperty = true,
@@ -723,7 +723,7 @@ namespace ExactJson.Tests.Functional
         [TestCase(typeof(NobelPrizes), typeof(JsonNodeReader))]
         public void DeserializeAndSerialize_NobelPrizes(Type type, Type readerType)
         {
-            var json = JsonSamples.GetJsonAsString("Nobel_Prizes.min.json");
+            var json = JsonData.GetJsonAsString("Nobel_Prizes.min.json");
 
             var serializer = new JsonSerializer();
 

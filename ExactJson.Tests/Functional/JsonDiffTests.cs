@@ -18,7 +18,7 @@ namespace ExactJson.Tests.Functional
         [TestCase("Earth_Meteorite_Landings.min.json")]
         public void Diff_FormattedFiles(string fileName)
         {
-            string json = JsonSamples.GetJsonAsString(fileName);
+            string json = JsonData.GetJsonAsString(fileName);
 
             var node1 = JsonNode.Parse(json);
             var node2 = JsonNode.Parse(json);

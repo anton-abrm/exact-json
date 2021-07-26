@@ -23,7 +23,7 @@ namespace ExactJson.Tests.Functional
             bool escapeSolidus,
             bool escapeNonAscii)
         {
-            string json = JsonSamples.GetJsonAsString(fileName);
+            string json = JsonData.GetJsonAsString(fileName);
 
             using var jr = new JsonStringReader(json);
             using var sw = new StringWriter();
@@ -54,7 +54,7 @@ namespace ExactJson.Tests.Functional
             bool escapeSolidus,
             bool escapeNonAscii)
         {
-            string json = JsonSamples.GetJsonAsString(fileName).Replace("\r", "");
+            string json = JsonData.GetJsonAsString(fileName).Replace("\r", "");
 
             using var jr = new JsonStringReader(json);
             using var sw = new StringWriter();
@@ -86,7 +86,7 @@ namespace ExactJson.Tests.Functional
             bool escapeSolidus,
             bool escapeNonAscii)
         {
-            string json = JsonSamples.GetJsonAsString(fileName);
+            string json = JsonData.GetJsonAsString(fileName);
 
             using var jr = new JsonStringReader(json);
             using var sw = new StringWriter();
