@@ -22,11 +22,11 @@ namespace ExactJson.Tests.Functional
             var diffs = node1.Diff(node2);
 
             foreach (var diff in diffs) {
-                Console.WriteLine($"'{ diff.Pointer }' | { diff.Self } | { diff.Other }");
+                Console.WriteLine($"{ diff.Pointer } | { diff.Self } | { diff.Other }");
             }
             
             // Output:
-            // '/1' | 0.29999999999999999 | 0.3
+            // /1 | 0.29999999999999999 | 0.3
 
             Assert.That(diffs.Length, Is.EqualTo(1));
             Assert.That(diffs[0].Pointer, Is.EqualTo(JsonPointer.Parse("/1")));
@@ -42,7 +42,9 @@ namespace ExactJson.Tests.Functional
 
             var nodesEqual = node1.Equals(node2);
 
-            Console.WriteLine($"Equal: {nodesEqual}");  // Output: Equal: False
+            Console.WriteLine($"Equal: {nodesEqual}");  
+            
+            // Output: Equal: False
             
             Assert.That(nodesEqual, Is.False);
         }
@@ -52,24 +54,26 @@ namespace ExactJson.Tests.Functional
         {
             var result = JsonNode.Parse("[1.00, 0.000, 1E+2]").ToString();
 
-            Console.WriteLine(result); // Output: [1.00,0.000,1E+2]
+            Console.WriteLine(result); 
+            
+            // Output: [1.00,0.000,1E+2]
             
             Assert.That(result, Is.EqualTo("[1.00,0.000,1E+2]"));
         }
 
         public sealed class Numbers
         {
-            [JsonNode, JsonFormat("3")]
-            public int A { get; set; } = 10; // 010
+            [JsonNode, JsonFormat("3")] // 010
+            public int A { get; set; } = 10; 
             
-            [JsonNode, JsonFormat(".2")]
-            public int B { get; set; } = 10; // 10.00
+            [JsonNode, JsonFormat(".2")] // 10.00
+            public int B { get; set; } = 10; 
             
-            [JsonNode, JsonFormat("E+2")]
-            public int C { get; set; } = 10; // 1E+01
+            [JsonNode, JsonFormat("E+2")] // 1E+01
+            public int C { get; set; } = 10; 
             
-            [JsonNode, JsonFormat("3.2E+2")]
-            public int D { get; set; } = 10; // 001.00E+01
+            [JsonNode, JsonFormat("3.2E+2")] // 001.00E+01
+            public int D { get; set; } = 10; 
         }
         
         [Test]
@@ -95,7 +99,9 @@ namespace ExactJson.Tests.Functional
             reader.Read();
             reader.Read();
 
-            Console.WriteLine($"Value: {reader.Value}"); // Output: 1
+            Console.WriteLine($"Value: {reader.Value}"); 
+            
+            // Output: 1
             
             Assert.That((int) reader.ValueAsNumber, Is.EqualTo(1));
             
@@ -106,7 +112,9 @@ namespace ExactJson.Tests.Functional
 
             state.Restore();
 
-            Console.WriteLine($"Value: {reader.Value}"); // Output: 1
+            Console.WriteLine($"Value: {reader.Value}"); 
+            
+            // Output: 1
             
             Assert.That((int) reader.ValueAsNumber, Is.EqualTo(1));
         }
@@ -155,7 +163,9 @@ namespace ExactJson.Tests.Functional
 
             var result = serializer.Serialize<Point>(point);
 
-            Console.WriteLine(result); // Output: [1.0,2.0]
+            Console.WriteLine(result); 
+            
+            // Output: [1.0,2.0]
             
             Assert.That(result, Is.EqualTo("[1.0,2.0]"));
         }
