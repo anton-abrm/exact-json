@@ -1,10 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>ExactJson</PackageId>
     <PackageVersion>1.0.0-preview3</PackageVersion>
-    <Title>JSON library for .NET</Title>
     <Authors>Anton Abramenko</Authors>
-    <PackageTags>json</PackageTags>
+    <Title>JSON library for .NET</Title>
+    <Description>A strict and intuitive JSON library for .NET</Description>
+    <Copyright>Copyright (c) Anton Abramenko</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>json;serialization</PackageTags>
+    <RepositoryUrl>https://github.com/anton-abrm/exact-json</RepositoryUrl>
     <LangVersion>9</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
