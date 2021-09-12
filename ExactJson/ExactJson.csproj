@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <PackageId>ExactJson</PackageId>
-    <PackageVersion>1.0.0-preview3</PackageVersion>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix>preview4</VersionSuffix>
     <Authors>Anton Abramenko</Authors>
     <Title>JSON library for .NET</Title>
     <Description>A strict and intuitive JSON library for .NET</Description>
