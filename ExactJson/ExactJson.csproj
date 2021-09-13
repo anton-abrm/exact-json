@@ -11,6 +11,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>json;serialization</PackageTags>
     <RepositoryUrl>https://github.com/anton-abrm/exact-json</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/anton-abrm/exact-json</PackageProjectUrl>
     <LangVersion>9</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
