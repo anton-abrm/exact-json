@@ -9,7 +9,7 @@ namespace ExactJson.Serialization
     public class JsonConverterAttribute : JsonNodeModifierAttribute
     {
         private readonly Type _converterType;
-
+        
         public JsonConverterAttribute(Type converterType)
         {
             _converterType = converterType;
@@ -17,7 +17,13 @@ namespace ExactJson.Serialization
         
         public virtual JsonConverter CreateConverter(Type targetType)
         {
-            return (JsonConverter) Activator.CreateInstance(_converterType);
+            var instance = (JsonConverter) Activator.CreateInstance(_converterType);
+
+            instance.SkipForNonStringValues = SkipForNonStringValues;
+            
+            return instance;
         }
+        
+        public bool SkipForNonStringValues { get; set; }
     }
 }

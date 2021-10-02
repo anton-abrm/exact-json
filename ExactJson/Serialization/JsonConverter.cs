@@ -8,5 +8,7 @@ namespace ExactJson.Serialization
     {
         public abstract string GetString(object value, JsonConverterContext context);
         public abstract object GetValue(string s, JsonConverterContext context);
+        
+        public bool SkipForNonStringValues { get; set; }
     }
 }

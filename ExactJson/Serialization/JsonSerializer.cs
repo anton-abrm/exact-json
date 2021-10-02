@@ -502,6 +502,11 @@ namespace ExactJson.Serialization
                         });
                     
                     default:
+
+                        if (converter.SkipForNonStringValues) {
+                            break;
+                        }
+                        
                         throw new JsonInvalidTypeException(
                             $"Unable to use converter for value. Unexpected token: {reader.TokenType}.");
                 }

@@ -33,6 +33,13 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             [JsonConverter(typeof(UriConverter))]
             public Uri Link { get; set; }
         }
+        
+        private sealed class Transaction
+        {
+            [JsonConverter(typeof(JsonNumberConverter), SkipForNonStringValues = true)]
+            [JsonNode("amount")]
+            public decimal Amount { get; set; }
+        }
 
         [Test]
         public void Serialize_PropertyWithConverter_UsesConverter()
@@ -117,6 +124,44 @@ namespace ExactJson.Tests.Unit.Serialization.Features
             
             Assert.That(ex, Is.Not.Null);
             Assert.That(ex.InnerException, Is.InstanceOf<JsonInvalidTypeException>());
+        }
+        
+        
+        
+        [Test]
+        public void Serialize_SkipForNonStringValues()
+        {
+            var t = new Transaction {
+               Amount = 123.45m
+            };
+
+            var serializer = new JsonSerializer();
+
+            var result = serializer.Serialize<Transaction>(t);
+
+            Assert.That(result, Is.EqualTo("{\"amount\":\"123.45\"}"));
+        }
+        
+        [Test]
+        public void Deserialize_SkipForNonStringValues_String()
+        {
+            var serializer = new JsonSerializer();
+
+            var result = serializer.Deserialize<Transaction>("{\"amount\":\"123.45\"}");
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Amount, Is.EqualTo(123.45m));
+        }
+        
+        [Test]
+        public void Deserialize_SkipForNonStringValues_Number()
+        {
+            var serializer = new JsonSerializer();
+
+            var result = serializer.Deserialize<Transaction>("{\"amount\":123.45}");
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Amount, Is.EqualTo(123.45m));
         }
     }
 }
